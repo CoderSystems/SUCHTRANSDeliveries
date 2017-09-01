@@ -471,6 +471,7 @@ namespace Inc2SuchTrans.Controllers
         /// <returns></returns>
         public ActionResult EmailQuote(int? id)
         {
+            //Pull email and send as a viewbag variable
             return View();
         }
 

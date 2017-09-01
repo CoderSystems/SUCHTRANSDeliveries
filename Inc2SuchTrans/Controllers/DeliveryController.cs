@@ -184,6 +184,24 @@ namespace Inc2SuchTrans.Controllers
                 ViewBag.PickUpArea = pickUp;
                 return View();
             }
+            if (System.Convert.ToDateTime(DeliveryDate) <= DateTime.Today)
+            {
+                Danger("Delivery Date is Invalid, Please Try Again");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View();
+            }
             if (String.IsNullOrEmpty(PickUpArea))
             {
                 Danger("Please Enter A Delivery Date");
@@ -401,6 +419,24 @@ namespace Inc2SuchTrans.Controllers
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View();
+            }
+            if(System.Convert.ToDateTime(DeliveryDate) <= DateTime.Today)
+            {
+                Danger("Delivery Date is Invalid, Please Try Again");
                 IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
                 {
                     Value = c.Area,
