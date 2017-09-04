@@ -17,7 +17,7 @@
                             @Html.LabelFor(model => model.To, new { style = "display:inline;" })
                         </td>
                         <td class="QuoteTableTD">
-                            <p>@Html.TextBoxFor(m => m.To)</p>
+                            <p>@Html.TextBoxFor(m => m.To, new { @Value = User.Identity.Name })</p>
                         </td>
                     </tr>
                 </tbody>

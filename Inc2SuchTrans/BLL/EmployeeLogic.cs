@@ -51,5 +51,27 @@ namespace Inc2SuchTrans.BLL
                 throw e;
             }
         }
+
+        public void updateDetails(Employee emp)
+        {
+            try
+            {
+                db.Employee.Attach(emp);
+                var entry = db.Entry(emp);
+                entry.Property(x => x.EmployeeName).IsModified = true;
+                entry.Property(x => x.EmployeeSurname).IsModified = true;
+                entry.Property(x => x.City).IsModified = true;
+                entry.Property(x => x.Address).IsModified = true;
+                entry.Property(x => x.PostalCode).IsModified = true;
+                entry.Property(x => x.ContactNumber).IsModified = true;
+                entry.Property(x => x.LastModified).IsModified = true;
+
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

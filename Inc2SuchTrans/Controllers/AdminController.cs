@@ -102,6 +102,60 @@ namespace Inc2SuchTrans.Controllers
         }
 
         [AuthLog(Roles = "Admin")]
+        public ActionResult Edit(int? id)
+        {
+            if(id != null)
+            {
+                Employee emp = elogic.searchEmployee(id);
+                return View(emp);
+            }
+            else
+            {
+                Danger("Error retrieving details..");
+                return View("YourProfile");
+            }
+        }
+
+        [HttpPost]
+        [AuthLog(Roles = "Admin")]
+        public ActionResult Edit(int id, string EmployeeName, string EmployeeSurname, string City, string Address, string PostalCode, string Position, string ContactNumber)
+        {
+            if (String.IsNullOrEmpty(EmployeeName))
+            {
+                Danger("Please Enter a Name!");
+                Employee emp = elogic.searchEmployee(id);
+                return View(emp);
+            }
+
+            try
+            {
+                Employee emp = elogic.searchEmployee(id);
+                if (emp != null)
+                {
+                    emp.EmployeeName = EmployeeName;
+                    emp.EmployeeSurname = EmployeeSurname;
+                    emp.City = City;
+                    emp.Address = Address;
+                    emp.PostalCode = PostalCode;
+                    emp.Position = Position;
+                    emp.ContactNumber = ContactNumber;
+                    emp.LastModified = System.DateTime.Now;
+
+                    elogic.updateDetails(emp);
+                }
+                Success("Successfully Updated Details!");
+                return RedirectToAction("Details", new { id = emp.EmployeeID });
+            }
+            catch (Exception e)
+            {
+                Danger("Oops! Something went wrong.. <br> Please contact support..");
+                return View();
+                throw e;
+            }
+
+        }
+
+        [AuthLog(Roles = "Admin")]
         public ActionResult YourProfile()
         {
             try

@@ -579,6 +579,7 @@
     <Content Include="Views\Driver\DeliveryDetails.cshtml" />
     <Content Include="Views\Driver\Edit.cshtml" />
     <Content Include="Views\StaticData\Create.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
