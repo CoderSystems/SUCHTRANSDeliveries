@@ -1,8 +1,20 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div class="FilterDivAdmin">
+<style>
+    a:hover
+    {
+        color:black;
+    }
+</style>
     <h1 class="EveryHeader"><strong>Such Trans Logistics</strong></h1>
+
     @Html.AntiForgeryToken()
-</div>
+    <table class="AdminHomeTable">
+        <tr>
+            <td><a href="~/Admin/AllEmployees"><div class="AdminCircle">All Employees</div></a></td>
+            <td><a href="~/Admin/AllDeliveries"><div class="AdminCircle">All Deliveries</div></a></td>
+            <td><a href="~/Admin/JobQueue"><div class="AdminCircle">Job Queue</div></a></td>
+            <td><a href="~/Fleet/Index"><div class="AdminCircle">View Fleet</div></a></td>
+        </tr>
+    </table>

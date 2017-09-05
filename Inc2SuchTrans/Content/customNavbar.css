@@ -12,6 +12,7 @@ div.navbar-custom {
 .navbar-fixed-top {
     top: 0;
     position: fixed;
+    height:40px;
 }
 
 div.navbar-custom a {
