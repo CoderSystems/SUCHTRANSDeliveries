@@ -227,6 +227,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
+    <Compile Include="Controllers\FinancesController.cs" />
     <Compile Include="Controllers\FleetController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -287,10 +288,16 @@
     <Compile Include="Models\Error.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Expense.cs">
+      <DependentUpon>SuchTransFinances.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Fleet.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Income.cs">
+      <DependentUpon>SuchTransFinances.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobQueue.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
@@ -316,11 +323,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\SuchTransFinances.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuchTransFinances.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SuchTransFinances.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuchTransFinances.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SuchTransFinances.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuchTransFinances.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\TruckDriver.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AllFinanceInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -457,7 +480,24 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <EntityDeploy Include="Models\SuchTransFinances.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SuchTransFinances.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SuchTransFinances.edmx.diagram">
+      <DependentUpon>SuchTransFinances.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\SuchTransInc2.pubxml" />
+    <Content Include="Models\SuchTransFinances.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SuchTransFinances.edmx</DependentUpon>
+      <LastGenOutput>SuchTransFinances.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SuchTransFinances.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SuchTransFinances.edmx</DependentUpon>
+      <LastGenOutput>SuchTransFinances.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -580,6 +620,10 @@
     <Content Include="Views\Driver\Edit.cshtml" />
     <Content Include="Views\StaticData\Create.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Finances\IncomeStat.cshtml" />
+    <Content Include="Views\Finances\Index.cshtml" />
+    <Content Include="Views\Finances\ExpReport.cshtml" />
+    <Content Include="Views\Finances\FinanSumm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

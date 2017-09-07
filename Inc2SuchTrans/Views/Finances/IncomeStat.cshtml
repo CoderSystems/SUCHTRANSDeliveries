@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Inc2SuchTrans.Models.Income>
+    @{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+<h1>Income Statement</h1>
+<br/>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IncName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateRecieved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Monthly)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RecievedFrom)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateRecieved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monthly)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecievedFrom)
+        </td>
+    </tr>
+}
+
+</table>

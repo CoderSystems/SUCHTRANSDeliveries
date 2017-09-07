@@ -1,0 +1,16 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Financial Statements</h1>
+<div class="OrangeButton" style="height:75px;">
+    @Html.ActionLink("Income Statement", "IncomeStat", "Finances", new { @class = "OrangeButtonLink" })
+</div>
+<div class="OrangeButton" style="height:75px;">
+    @Html.ActionLink("Expense Report", "ExpReport", "Finances", new { @class = "OrangeButtonLink" })
+</div>
+<div class="OrangeButton" style="height:75px;">
+    @Html.ActionLink("Financial Summary", "FinanSumm", "Finances", new { @class = "OrangeButtonLink" })
+</div>
+
+

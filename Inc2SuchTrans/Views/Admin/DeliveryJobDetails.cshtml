@@ -1,0 +1,55 @@
+﻿@model Inc2SuchTrans.Models.Deliveryjob
+
+<div>
+    <h4>Deliveryjob</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JobStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PortDelay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PortDelay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.PickUpArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.PickUpArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TruckDriver.DriverID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TruckDriver.DriverID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fleet.TruckNumberPlate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fleet.TruckNumberPlate)
+        </dd>
+
+        
+
+    </dl>
+    <p>@Html.ActionLink()</p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.JobID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
