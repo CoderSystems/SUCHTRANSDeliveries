@@ -1,16 +1,22 @@
 ﻿@{ 
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Finances/_FinanceLayout.cshtml";
 }
-
-<h1>Financial Statements</h1>
-<div class="OrangeButton" style="height:75px;">
-    @Html.ActionLink("Income Statement", "IncomeStat", "Finances", new { @class = "OrangeButtonLink" })
-</div>
-<div class="OrangeButton" style="height:75px;">
-    @Html.ActionLink("Expense Report", "ExpReport", "Finances", new { @class = "OrangeButtonLink" })
-</div>
-<div class="OrangeButton" style="height:75px;">
-    @Html.ActionLink("Financial Summary", "FinanSumm", "Finances", new { @class = "OrangeButtonLink" })
+<div>
+    <table class="FinanceTable">
+        <tr>
+            <td>
+                <a class="FinanceLink" href="@Url.Action("IncomeStat","Finances")"><h4>Income</h4></a>
+            </td>
+            <td>
+                <a class="FinanceLink" href="@Url.Action("ExpReport","Finances")"><h4>Expense</h4></a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="FinanceLink" href="@Url.Action("FinanSumm","Finances")"><h4>Net (All)</h4></a>
+            </td>
+        </tr>
+    </table>
 </div>
 
 

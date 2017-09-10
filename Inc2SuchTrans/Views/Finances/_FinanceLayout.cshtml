@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+@{ Layout = "~/Views/Shared/_AdminLayout.cshtml";}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="FinanceNavBar">
+    @Html.ActionLink("Incomes", "IncomeStat", "Finances", new { @class = "FinanceNavItem" })
+    @Html.ActionLink("Expenses", "ExpReport", "Finances", new { @class = "FinanceNavItem" })
+    @Html.ActionLink("Net (All)", "FinanSumm", "Finances", new { @class = "FinanceNavItem" })    
+    </div>
+    <h1 class="EveryHeader">Financial Statements</h1>
+    <hr/>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

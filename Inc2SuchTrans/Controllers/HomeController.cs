@@ -8,6 +8,10 @@ namespace Inc2SuchTrans.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult Start()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             if (User.IsInRole("Super Admin"))

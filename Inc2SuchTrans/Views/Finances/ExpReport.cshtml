@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<Inc2SuchTrans.Models.Expense>
-@{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
-<h1>Expense Report</h1>
+@{ Layout = "~/Views/Finances/_FinanceLayout.cshtml"; }
+<h1>Summarised Expense Information</h1>
 <br />
+<img class="RoundChart" src="@Url.Action("ExpenseBarGraph")" alt="Chart Unavaliable" /><br /><br/><br/>
+<img class="RoundChart" src="@Url.Action("ExpensePieChart")" alt="Chart Unavaliable" /><br /><br/><br/>
+<h1>All Expense Transactions</h1>
+<br/>
 <table class="table">
     <tr>
         <th>

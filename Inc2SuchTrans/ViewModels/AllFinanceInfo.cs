@@ -8,9 +8,13 @@ namespace Inc2SuchTrans.ViewModels
 {
     public class AllFinanceInfo
     {
-        
-        public IEnumerable<Income> Incs;
-        public IEnumerable<Expense> Exps;
+        public List<SimpleExpenseVM> exps { get; set; }
+        public List<SimpleIncomeVM> incs { get; set; }
+
+        public AllFinanceInfo()
+        {
+
+        }
         
        
     }

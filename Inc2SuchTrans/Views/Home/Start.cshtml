@@ -1,0 +1,39 @@
+﻿@{ Layout = null;}
+
+<html>
+<head>
+    <style>
+        body 
+        {
+            background-image: url('../../Content/Images/Transport-Trucking-Driving-Freeway-Transportation-1495618.jpg');
+            background-size: cover;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    @Styles.Render("~/Content/css")
+    @*@Scripts.Render("~/bundles/modernizr")*@
+</head>
+<body>
+    <h1 id="StartH1">SUCHTRANS Logistics</h1>
+    <h2 id="StartH2">Logistics Company Situated in Silverglen</h2>
+
+    @*<table class="StartTable">
+            <tr>
+                <td>
+                    <a class="DivLink" href="@Url.Action("Index","Home")"><div><h5>Continue to Site</h5></div></a>
+                </td>
+            </tr>
+        </table>*@
+
+    <div class="StartBanner">
+        <div class="DivCell">
+            <a class="DivLink" href="@Url.Action("Index","Home")"><div>Continue To Site</div></a>
+        </div>
+    </div>
+    <div id="AnimDiv">
+        <img id="TruckAnim" src="~/Content/Images/flatbed-tow-truck-clipart-2.png" />
+        <img id="CargoAnim" src="~/Content/Images/shipping_container_filled1600.png" />
+    </div>
+</body>
+</html>
