@@ -14,11 +14,16 @@ namespace Inc2SuchTrans.Models
     
     public partial class Income
     {
-        public int IncID { get; set; }
-        public string IncName { get; set; }
-        public Nullable<decimal> Amount { get; set; }
-        public Nullable<System.DateTime> DateRecieved { get; set; }
-        public Nullable<byte> Monthly { get; set; }
-        public string RecievedFrom { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Income()
+        {
+            this.TransactionTables = new HashSet<TransactionTable>();
+        }
+    
+        public string Code { get; set; }
+        public string I_Desc { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionTable> TransactionTables { get; set; }
     }
 }

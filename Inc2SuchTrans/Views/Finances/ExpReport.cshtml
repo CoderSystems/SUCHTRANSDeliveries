@@ -1,7 +1,29 @@
-﻿@model IEnumerable<Inc2SuchTrans.Models.Expense>
+﻿@model IEnumerable<Inc2SuchTrans.ViewModels.ExpenseVM>
 @{ Layout = "~/Views/Finances/_FinanceLayout.cshtml"; }
 <h1>Summarised Expense Information</h1>
 <br />
+
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1' data-provide="datepicker">
+                    <input type='text' class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+</div>
+
+<p>Show Only Transactions after this Date: <input type="datetime" name="txtDate" /></p>
 <img class="RoundChart" src="@Url.Action("ExpenseBarGraph")" alt="Chart Unavaliable" /><br /><br/><br/>
 <img class="RoundChart" src="@Url.Action("ExpensePieChart")" alt="Chart Unavaliable" /><br /><br/><br/>
 <h1>All Expense Transactions</h1>
@@ -9,39 +31,32 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ExpName)
+            Transaction ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amount)
+            Transaction Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
+            Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Monthly)
+            Amount
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidTo)
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ExpName)
+            @Html.DisplayFor(modelItem => item.T_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.T_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.E_Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monthly)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaidTo)
         </td>
     </tr>
 }

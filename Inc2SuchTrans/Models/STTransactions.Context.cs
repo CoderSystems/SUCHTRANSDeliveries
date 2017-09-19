@@ -13,10 +13,10 @@ namespace Inc2SuchTrans.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class STFinancesEntities : DbContext
+    public partial class STTransactionEntities : DbContext
     {
-        public STFinancesEntities()
-            : base("name=STFinancesEntities")
+        public STTransactionEntities()
+            : base("name=STTransactionEntities")
         {
         }
     
@@ -27,5 +27,6 @@ namespace Inc2SuchTrans.Models
     
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<Income> Incomes { get; set; }
+        public virtual DbSet<TransactionTable> TransactionTables { get; set; }
     }
 }

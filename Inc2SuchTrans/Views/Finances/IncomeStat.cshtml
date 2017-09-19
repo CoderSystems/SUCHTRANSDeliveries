@@ -1,50 +1,44 @@
-﻿@model IEnumerable<Inc2SuchTrans.Models.Income>
-    @{ Layout = "~/Views/Finances/_FinanceLayout.cshtml"; }
-<h1>Summarised Income Information</h1>
-<br/>
-<img class="RoundChart" src="@Url.Action("IncomeBarGraph")" alt="Chart Unavaliable" /><br /><br/><br/>
-<img class="RoundChart" src="@Url.Action("IncomePieChart")" alt="Chart Unavaliable"/><br/><br/><br/>
+﻿@model IEnumerable<Inc2SuchTrans.ViewModels.IncomeVM>
+@{ Layout = "~/Views/Finances/_FinanceLayout.cshtml"; }
+<h1>Income Information</h1>
+<br />
+<img class="RoundChart" src="@Url.Action("IncomeBarGraph")" alt="Chart Unavaliable" /><br /><br /><br />
+<img class="RoundChart" src="@Url.Action("IncomePieChart")" alt="Chart Unavaliable" /><br /><br /><br />
 <h1>All Income Transactions</h1>
-<br/>
-    <table class="table">
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Transaction ID
+        </th>
+        <th>
+            Transaction Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IncName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateRecieved)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Monthly)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RecievedFrom)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.T_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.T_Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.I_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IncName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateRecieved)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Monthly)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RecievedFrom)
-                </td>
-            </tr>
-        }
+</table>
 
-    </table>
