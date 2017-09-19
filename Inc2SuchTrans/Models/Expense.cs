@@ -11,14 +11,21 @@ namespace Inc2SuchTrans.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Expense
     {
-        public int ExpID { get; set; }
-        public string ExpName { get; set; }
-        public Nullable<decimal> Amount { get; set; }
-        public Nullable<System.DateTime> DateCreated { get; set; }
-        public Nullable<byte> Monthly { get; set; }
-        public string PaidTo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Expense()
+        {
+            this.TransactionTables = new HashSet<TransactionTable>();
+        }
+        [Key]
+        public string Code { get; set; }
+        public string E_Desc { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionTable> TransactionTables { get; set; }
     }
 }

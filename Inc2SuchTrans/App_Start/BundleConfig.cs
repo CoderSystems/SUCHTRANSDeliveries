@@ -8,6 +8,10 @@ namespace Inc2SuchTrans
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/datetime").Include(
+                "~/Scripts/moment*",
+                "~/Scripts/bootstrap-datetimepicker*"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Content/Scripts/bootstrap-datetimepicker.js"));
@@ -33,6 +37,12 @@ namespace Inc2SuchTrans
                       "~/Content/outPopUp.css",
                       "~/Content/styles/bootstrap-datetimepicker.css",
                       "~/Content/customsidebar.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+          "~/Scripts/jquery-ui-{version}.js"));
+            //css  
+            bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(
+                   "~/Content/jquery-ui.css"));
         }
     }
 }
