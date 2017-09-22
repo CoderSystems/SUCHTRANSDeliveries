@@ -219,6 +219,7 @@
     <Compile Include="BLL\FleetLogic.cs" />
     <Compile Include="BLL\JobQueueLogic.cs" />
     <Compile Include="BLL\QuoteLogic.cs" />
+    <Compile Include="BLL\TransactionLogic.cs" />
     <Compile Include="BLL\TruckDriverLogic.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -678,10 +679,8 @@
     <Content Include="Views\Finances\ExpReport.cshtml" />
     <Content Include="Views\Finances\FinanSumm.cshtml" />
     <Content Include="Views\Finances\_FinanceLayout.cshtml" />
-    <Content Include="Views\Finances\Chart.cshtml" />
     <Content Include="Views\Home\Start.cshtml" />
     <Content Include="Views\Finances\IncomeStat.cshtml" />
-    <Content Include="Views\Finances\Tester.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

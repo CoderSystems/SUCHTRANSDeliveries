@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inc2SuchTrans.Models;
 using Inc2SuchTrans.ViewModels;
 using System.Web.Helpers;
+using Inc2SuchTrans.BLL;
 
 namespace Inc2SuchTrans.Controllers
 {
@@ -20,8 +21,12 @@ namespace Inc2SuchTrans.Controllers
 
         public ActionResult IncomeStat()
         {
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+
             var incDeff = FDB.Incomes;
             var TList = FDB.TransactionTables;
+            ViewBag.ChartDate = null;
             var incs = new List<IncomeVM>();
             foreach (TransactionTable t in TList)
             {
@@ -45,8 +50,46 @@ namespace Inc2SuchTrans.Controllers
             return View(incs);
         }
 
+        [HttpPost]
+        public ActionResult IncomeStat(DateTime StartMonth)
+        {
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+            var incDeff = FDB.Incomes;
+            var TList = FDB.TransactionTables;
+            var incs = new List<IncomeVM>();
+            foreach (TransactionTable t in TList)
+            {
+                if (t.I_Code != null)
+                {
+                    IncomeVM newinc = new IncomeVM();
+                    newinc.T_ID = t.T_ID;
+                    newinc.T_Date = t.T_Date;
+                    newinc.Amount = t.Amount;
+                    newinc.I_Code = t.I_Code;
+                    foreach (Income i in incDeff)
+                    {
+                        if (i.Code == t.I_Code)
+                            newinc.I_Name = i.I_Desc;
+                    }
+                    if(newinc.T_Date >= StartMonth)
+                    {
+                        incs.Add(newinc);
+                    }
+                }
+
+            }
+            ViewBag.ChartDate = StartMonth;
+            return View(incs);
+        }
+
         public ActionResult ExpReport()
         {
+            ViewBag.ChartDate = null;
+
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+
             var expDeff = FDB.Expenses;
             var TList = FDB.TransactionTables;
             var exps = new List<ExpenseVM>();
@@ -71,8 +114,49 @@ namespace Inc2SuchTrans.Controllers
             return View(exps);
         }
 
+        [HttpPost]
+        public ActionResult ExpReport(DateTime StartMonth)
+        {
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+
+            var expDeff = FDB.Expenses;
+            var TList = FDB.TransactionTables;
+            var exps = new List<ExpenseVM>();
+
+            ViewBag.ChartDate = StartMonth;
+            
+            foreach (TransactionTable t in TList)
+            {
+                
+                    if (t.E_Code != null)
+                    {
+                        ExpenseVM newexp = new ExpenseVM();
+                        newexp.T_ID = t.T_ID;
+                        newexp.T_Date = t.T_Date.Date;
+                        newexp.Amount = t.Amount;
+                        newexp.E_Code = t.E_Code;
+                        foreach (Expense e in expDeff)
+                        {
+                            if (e.Code == t.E_Code)
+                                newexp.E_Name = e.E_Desc;
+                        }
+                        if (newexp.T_Date >= StartMonth)
+                        {
+                            exps.Add(newexp);
+                        }
+                    }
+                
+            }
+            return View(exps);
+        }
+
         public ActionResult FinanSumm()
         {
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+
+            ViewBag.ChartDate = null;
             IEnumerable<TransactionTable> TransactionList = FDB.TransactionTables;
             var expDeff = FDB.Expenses;
             var incDeff = FDB.Incomes;
@@ -142,232 +226,465 @@ namespace Inc2SuchTrans.Controllers
             return View(VM);
         }
 
-        public ActionResult IncomeBarGraph()
+        [HttpPost]
+        public ActionResult FinanSumm(DateTime StartMonth)
         {
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Income> incDeff = FDB.Incomes;
-            List<IncomeVM> IncList = new List<IncomeVM>();
+            List<string> DateList = TransactionLogic.ListOfDates();
+            ViewBag.DatesList = DateList;
+            IEnumerable<TransactionTable> TransactionList = FDB.TransactionTables;
+            var expDeff = FDB.Expenses;
+            var incDeff = FDB.Incomes;
+            List<ExpenseVM> el = new List<ExpenseVM>();
+            List<IncomeVM> il = new List<IncomeVM>();
+            decimal? TotalInc = 0;
+            decimal? TotalExp = 0;
+            decimal? Final = 0;
+            string crdr = "";
 
-            foreach (TransactionTable t in AllT)
-            {
-                if (t.I_Code != null)
-                {
-                    int index = IncList.FindIndex(p => p.I_Code == t.I_Code);
-                    if(index < 0)
-                    {
-                        IncomeVM newinc = new IncomeVM();
-                        newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
-                        newinc.Amount = t.Amount;
-                        newinc.I_Code = t.I_Code;
-                        foreach (Income i in incDeff)
-                        {
-                            if (i.Code == t.I_Code)
-                                newinc.I_Name = i.I_Desc;
-                        }
-                        IncList.Add(newinc);
-                    }
-                    else
-                    {
-                        IncomeVM currinc = IncList.Find(f => f.I_Code == t.I_Code);
-                        currinc.Amount += t.Amount;
-                    }
-                }
-            }
-
-            List<string> xList = new List<string>();
-            List<decimal?> yList = new List<decimal?>();
-
-            foreach (IncomeVM si in IncList)
-            {
-                xList.Add(si.I_Name);
-                yList.Add(si.Amount);
-            }
-
-            var MyChart = new Chart(width: 600, height: 400)
-                .AddTitle("Income Information")
-                .AddSeries(
-                    name: "Data",
-                    xValue: xList,
-                    yValues: yList)
-                    .Write("png");
-            return null;
-        }
-
-        public ActionResult ExpenseBarGraph()
-        {
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Expense> incDeff = FDB.Expenses;
-            List<ExpenseVM> IncList = new List<ExpenseVM>();
-
-            foreach (TransactionTable t in AllT)
+            foreach (TransactionTable t in TransactionList)
             {
                 if (t.E_Code != null)
                 {
-                    int index = IncList.FindIndex(p => p.E_Code == t.E_Code);
-                    if (index < 0)
+                    ExpenseVM e = new ExpenseVM();
+                    e.T_ID = t.T_ID;
+                    e.T_Date = t.T_Date;
+                    e.Amount = t.Amount;
+                    e.E_Code = t.E_Code;
+                    foreach (Expense oe in expDeff)
                     {
-                        ExpenseVM newinc = new ExpenseVM();
-                        newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
-                        newinc.Amount = t.Amount;
-                        newinc.E_Code = t.E_Code;
-                        foreach (Expense i in incDeff)
+                        if (oe.Code == t.E_Code)
                         {
-                            if (i.Code == t.E_Code)
-                                newinc.E_Name = i.E_Desc;
+                            e.E_Name = oe.E_Desc;
                         }
-                        IncList.Add(newinc);
                     }
-                    else
+                    if (e.T_Date >= StartMonth)
                     {
-                        ExpenseVM currinc = IncList.Find(f => f.E_Code == t.E_Code);
-                        currinc.Amount += t.Amount;
+                        TotalExp += e.Amount;
+                        el.Add(e);
                     }
                 }
-            }
-
-            List<string> xList = new List<string>();
-            List<decimal?> yList = new List<decimal?>();
-
-            foreach (ExpenseVM si in IncList)
-            {
-                xList.Add(si.E_Name);
-                yList.Add(si.Amount);
-            }
-
-            var MyChart = new Chart(width: 600, height: 400)
-                .AddTitle("Expense Information")
-                .AddSeries(
-                    name: "Data",
-                    xValue: xList,
-                    yValues: yList)
-                    .Write("png");
-            return null;
-        }
-
-        public ActionResult ExpensePieChart()
-        {
-
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Expense> incDeff = FDB.Expenses;
-            List<ExpenseVM> IncList = new List<ExpenseVM>();
-
-            foreach (TransactionTable t in AllT)
-            {
-                if (t.E_Code != null)
-                {
-                    int index = IncList.FindIndex(p => p.E_Code == t.E_Code);
-                    if (index < 0)
-                    {
-                        ExpenseVM newinc = new ExpenseVM();
-                        newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
-                        newinc.Amount = t.Amount;
-                        newinc.E_Code = t.E_Code;
-                        foreach (Expense i in incDeff)
-                        {
-                            if (i.Code == t.E_Code)
-                                newinc.E_Name = i.E_Desc;
-                        }
-                        IncList.Add(newinc);
-                    }
-                    else
-                    {
-                        ExpenseVM currinc = IncList.Find(f => f.E_Code == t.E_Code);
-                        currinc.Amount += t.Amount;
-                    }
-                }
-            }
-
-            List<string> xList = new List<string>();
-            List<decimal?> yList = new List<decimal?>();
-
-            foreach (ExpenseVM si in IncList)
-            {
-                xList.Add(si.E_Name);
-                yList.Add(si.Amount);
-            }
-
-
-            var MyChart = new Chart(width: 600, height: 400)
-                .AddTitle("Expense Information")
-                .AddSeries(
-                    name: "Data",
-                    chartType: "Pie",
-                    xValue: xList,
-                    yValues: yList)
-                    .Write("png");
-            return null;
-        }
-
-        public ActionResult IncomePieChart()
-        {
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Income> incDeff = FDB.Incomes;
-            List<IncomeVM> IncList = new List<IncomeVM>();
-
-            foreach (TransactionTable t in AllT)
-            {
-                if (t.I_Code != null)
-                {
-                    int index = IncList.FindIndex(p => p.I_Code == t.I_Code);
-                    if (index < 0)
-                    {
-                        IncomeVM newinc = new IncomeVM();
-                        newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
-                        newinc.Amount = t.Amount;
-                        newinc.I_Code = t.I_Code;
-                        foreach (Income i in incDeff)
-                        {
-                            if (i.Code == t.I_Code)
-                                newinc.I_Name = i.I_Desc;
-                        }
-                        IncList.Add(newinc);
-                    }
-                    else
-                    {
-                        IncomeVM currinc = IncList.Find(f => f.I_Code == t.I_Code);
-                        currinc.Amount += t.Amount;
-                    }
-                }
-            }
-
-            List<string> xList = new List<string>();
-            List<decimal?> yList = new List<decimal?>();
-
-            foreach (IncomeVM si in IncList)
-            {
-                xList.Add(si.I_Name);
-                yList.Add(si.Amount);
-            }
-
-            var MyChart = new Chart(width: 600, height: 400)
-                .AddTitle("Income Information")
-                .AddSeries(
-                    name: "Data",
-                    chartType: "Pie",
-                    xValue: xList,
-                    yValues: yList)
-                    .Write("png");
-            return null;
-        }
-
-        public ActionResult NetDoughnutChart()
-        {
-            IEnumerable<TransactionTable> TList = FDB.TransactionTables;
-            decimal? Tinc = 0;
-            decimal? Texp = 0;
-
-            foreach(TransactionTable t in TList)
-            {
-                if (t.E_Code != null)
-                    Texp += t.Amount;
                 else if (t.I_Code != null)
-                    Tinc += t.Amount;
+                {
+                    IncomeVM i = new IncomeVM();
+                    i.T_ID = t.T_ID;
+                    i.T_Date = t.T_Date;
+                    i.Amount = t.Amount;
+                    i.I_Code = t.I_Code;
+                    foreach (Income oi in incDeff)
+                    {
+                        if (oi.Code == t.I_Code)
+                        {
+                            i.I_Name = oi.I_Desc;
+                        }
+                    }
+                    if (i.T_Date >= StartMonth)
+                    {
+                        TotalInc += i.Amount;
+                        il.Add(i);
+                    }
+                }
+            }
+            Final = TotalInc - TotalExp;
+            if (Final < 0)
+            {
+                crdr = "Loss";
+                Final = Final * (-1);
+            }
+            else if (Final > 0)
+            {
+                crdr = "Profit";
+            }
+            else
+            {
+                crdr = "Break Even";
+            }
+            ViewBag.TotalInc = "R" + TotalInc.ToString();
+            ViewBag.TotalExp = "R" + TotalExp.ToString();
+            ViewBag.Summary = "R" + Final.ToString() + " ---- " + crdr;
+
+            var VM = new AllFinanceInfo { incs = il, exps = el };
+            ViewBag.ChartDate = StartMonth;
+            return View(VM);
+        }
+
+        public ActionResult IncomeBarGraph(DateTime? ChartDate)
+        {
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
+            IEnumerable<Income> incDeff = FDB.Incomes;
+            List<IncomeVM> IncList = new List<IncomeVM>();
+
+            foreach (TransactionTable t in AllT)
+            {
+                if (t.I_Code != null)
+                {
+                    int index = IncList.FindIndex(p => p.I_Code == t.I_Code);
+                    if (index < 0)
+                    {
+                        IncomeVM newinc = new IncomeVM();
+                        newinc.T_ID = t.T_ID;
+                        newinc.T_Date = t.T_Date;
+                        newinc.Amount = t.Amount;
+                        newinc.I_Code = t.I_Code;
+                        foreach (Income i in incDeff)
+                        {
+                            if (i.Code == t.I_Code)
+                                newinc.I_Name = i.I_Desc;
+                        }
+                        if (ChartDate != null)
+                        {
+                            if (newinc.T_Date >= ChartDate)
+                            {
+                                IncList.Add(newinc);
+                            }
+                        }
+                        else
+                        {
+                            IncList.Add(newinc);
+                        }
+                    }
+                    else
+                    {
+                        IncomeVM currinc = IncList.Find(f => f.I_Code == t.I_Code);
+                        if(ChartDate != null)
+                        {
+                            if(t.T_Date >= ChartDate)
+                            {
+                                currinc.Amount += t.Amount;
+                            }
+                        }
+                        else
+                        {
+                            currinc.Amount += t.Amount;
+                        }                        
+                    }
+                }
             }
 
+            List<string> xList = new List<string>();
+            List<decimal?> yList = new List<decimal?>();
+
+            foreach (IncomeVM si in IncList)
+            {
+                xList.Add(si.I_Name);
+                yList.Add(si.Amount);
+            }
+            if (ChartDate != null)
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Income Information including and after" + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
+                    .AddSeries(
+                        name: "Data",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            else
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Default Income Information")
+                    .AddSeries(
+                        name: "Data",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            return null;
+        }
+
+        
+
+        public ActionResult ExpenseBarGraph(DateTime? ChartDate)
+        {
+            
+            
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
+            IEnumerable<Expense> incDeff = FDB.Expenses;
+            List<ExpenseVM> IncList = new List<ExpenseVM>();
+
+            foreach (TransactionTable t in AllT)
+            {
+                if (t.E_Code != null)
+                {
+                    int index = IncList.FindIndex(p => p.E_Code == t.E_Code);
+                    if (index < 0)
+                    {
+                        ExpenseVM newinc = new ExpenseVM();
+                        newinc.T_ID = t.T_ID;
+                        newinc.T_Date = t.T_Date;
+                        newinc.Amount = t.Amount;
+                        newinc.E_Code = t.E_Code;
+                        foreach (Expense i in incDeff)
+                        {
+                            if (i.Code == t.E_Code)
+                                newinc.E_Name = i.E_Desc;
+                        }
+                        if (ChartDate != null)
+                        {
+                            if (newinc.T_Date >= ChartDate)
+                            {
+                                IncList.Add(newinc);
+                            }
+                        }
+                        else
+                        {
+                            IncList.Add(newinc);
+                        }
+                    }
+                    else
+                    {
+                        ExpenseVM currinc = IncList.Find(f => f.E_Code == t.E_Code);
+                        if(ChartDate != null)
+                        {
+                            if(t.T_Date >= ChartDate)
+                            {
+                                currinc.Amount += t.Amount;
+                            }
+                        }
+                        else
+                        {
+                            currinc.Amount += t.Amount;
+                        }                        
+                    }
+                }
+            }
+
+            List<string> xList = new List<string>();
+            List<decimal?> yList = new List<decimal?>();
+
+            foreach (ExpenseVM si in IncList)
+            {
+                xList.Add(si.E_Name);
+                yList.Add(si.Amount);
+            }
+            if (ChartDate != null)
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Expense Information including and after " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
+                    .AddSeries(
+                        name: "Data",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            else
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Default Expense Information")
+                    .AddSeries(
+                        name: "Data",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            return null;
+        }
+
+        public ActionResult ExpensePieChart(DateTime? ChartDate)
+        {
+
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
+            IEnumerable<Expense> incDeff = FDB.Expenses;
+            List<ExpenseVM> IncList = new List<ExpenseVM>();
+
+            foreach (TransactionTable t in AllT)
+            {
+                if (t.E_Code != null)
+                {
+                    int index = IncList.FindIndex(p => p.E_Code == t.E_Code);
+                    if (index < 0)
+                    {
+                        ExpenseVM newinc = new ExpenseVM();
+                        newinc.T_ID = t.T_ID;
+                        newinc.T_Date = t.T_Date;
+                        newinc.Amount = t.Amount;
+                        newinc.E_Code = t.E_Code;
+                        foreach (Expense i in incDeff)
+                        {
+                            if (i.Code == t.E_Code)
+                                newinc.E_Name = i.E_Desc;
+                        }
+                        if (ChartDate != null)
+                        {
+                            if (newinc.T_Date >= ChartDate)
+                            {
+                                IncList.Add(newinc);
+                            }
+                        }
+                        else
+                        {
+                            IncList.Add(newinc);
+                        }
+                    }
+                    else
+                    {
+                        ExpenseVM currinc = IncList.Find(f => f.E_Code == t.E_Code);
+                        if (ChartDate != null)
+                        {
+                            if (t.T_Date >= ChartDate)
+                            {
+                                currinc.Amount += t.Amount;
+                            }
+
+                        }
+                        else
+                        {
+                            currinc.Amount += t.Amount;
+                        }
+                    }
+                }
+            }
+
+            List<string> xList = new List<string>();
+            List<decimal?> yList = new List<decimal?>();
+
+            foreach (ExpenseVM si in IncList)
+            {
+                xList.Add(si.E_Name);
+                yList.Add(si.Amount);
+            }
+
+            if(ChartDate != null)
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                .AddTitle("Expense Information including and after " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
+                .AddSeries(
+                    name: "Data",
+                    chartType: "Pie",
+                    xValue: xList,
+                    yValues: yList)
+                    .Write("png");
+            }
+            else
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                .AddTitle("Expense Information")
+                .AddSeries(
+                    name: "Data",
+                    chartType: "Pie",
+                    xValue: xList,
+                    yValues: yList)
+                    .Write("png");
+            }
+            
+            return null;
+        }
+
+        public ActionResult IncomePieChart(DateTime? ChartDate)
+        {
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
+            IEnumerable<Income> incDeff = FDB.Incomes;
+            List<IncomeVM> IncList = new List<IncomeVM>();
+
+            foreach (TransactionTable t in AllT)
+            {
+                if (t.I_Code != null)
+                {
+                    int index = IncList.FindIndex(p => p.I_Code == t.I_Code);
+                    if (index < 0)
+                    {
+                        IncomeVM newinc = new IncomeVM();
+                        newinc.T_ID = t.T_ID;
+                        newinc.T_Date = t.T_Date;
+                        newinc.Amount = t.Amount;
+                        newinc.I_Code = t.I_Code;
+                        foreach (Income i in incDeff)
+                        {
+                            if (i.Code == t.I_Code)
+                                newinc.I_Name = i.I_Desc;
+                        }
+                        if (ChartDate != null)
+                        {
+                            if (newinc.T_Date >= ChartDate)
+                            {
+                                IncList.Add(newinc);
+                            }
+                        }
+                        else
+                        {
+                            IncList.Add(newinc);
+                        }
+                    }
+                    else
+                    {
+                        IncomeVM currinc = IncList.Find(f => f.I_Code == t.I_Code);
+                        if(ChartDate != null)
+                        {
+                            if(t.T_Date >= ChartDate)
+                            {
+                                currinc.Amount += t.Amount;
+                            }
+                        }
+                        else
+                        {
+                        currinc.Amount += t.Amount;
+
+                        }
+                    }
+                }
+            }
+
+            List<string> xList = new List<string>();
+            List<decimal?> yList = new List<decimal?>();
+
+            foreach (IncomeVM si in IncList)
+            {
+                xList.Add(si.I_Name);
+                yList.Add(si.Amount);
+            }
+
+            if (ChartDate != null)
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Income Information including and after " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
+                    .AddSeries(
+                        name: "Data",
+                        chartType: "Pie",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            else
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Default Income Information")
+                    .AddSeries(
+                        name: "Data",
+                        chartType: "Pie",
+                        xValue: xList,
+                        yValues: yList)
+                        .Write("png");
+            }
+            return null;
+        }
+
+        public ActionResult NetDoughnutChart(DateTime? ChartDate)
+        {
+                IEnumerable<TransactionTable> TList = FDB.TransactionTables;
+                decimal? Tinc = 0;
+                decimal? Texp = 0;
+                foreach (TransactionTable t in TList)
+                {
+                if (ChartDate != null)
+                {
+                    if (t.T_Date >= ChartDate)
+                    {
+                        if (t.E_Code != null)
+                            Texp += t.Amount;
+                        else if (t.I_Code != null)
+                            Tinc += t.Amount;
+                    }
+                }
+                else
+                {
+
+
+                    if (t.E_Code != null)
+                        Texp += t.Amount;
+                    else if (t.I_Code != null)
+                        Tinc += t.Amount;
+                }
+                    
+            }
             List<string> xList = new List<string> { "Income", "Expense" };
             List<decimal?> yList = new List<decimal?> { Tinc, Texp };
 
@@ -377,9 +694,10 @@ namespace Inc2SuchTrans.Controllers
                                                 <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
         	                                    </ChartAreas>
         	                                </Chart>";
-
-            var MyChart = new Chart(width: 600, height: 400, theme: myTheme)
-                .AddTitle("Net Summary")
+            if (ChartDate != null)
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme:ChartTheme.Blue)
+                .AddTitle("Net Summary including and after " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
                 .AddSeries(
                     name: "Data",
                     chartType: "Doughnut",
@@ -387,13 +705,22 @@ namespace Inc2SuchTrans.Controllers
                     yValues: yList)
 
                     .Write("png");
+            }
+            else
+            {
+                var MyChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+                    .AddTitle("Net Summary")
+                    .AddSeries(
+                        name: "Data",
+                        chartType: "Doughnut",
+                        xValue: xList,
+                        yValues: yList)
 
+                        .Write("png");
+            }
             return null;
         }
-        public ActionResult Tester()
-        {
-            return View();
-        }
+        
     }
 }
 

@@ -11,7 +11,7 @@ namespace Inc2SuchTrans.ViewModels
     {
         [Key]
         public int T_ID { get; set; }
-        public DateTime? T_Date { get; set; }
+        public DateTime T_Date { get; set; }
         public string I_Code { get; set; }
         public string I_Name { get; set; }
         public decimal? Amount { get; set; }

@@ -16,69 +16,78 @@
     }
 </style>
 <h1>All Financial Infomation</h1>
-<br />
-<div class="FilterDivAdmin">
-    <p>Total Income: @ViewBag.TotalInc</p>
-    <p>Total Expense: @ViewBag.TotalExp</p>
-    <p>Summary: @ViewBag.Summary</p>
-    <img class="RoundChart" src=@Url.Action("NetDoughnutChart","Finances")/>
-</div>
-<table class="Financetable">
-    <tr>
-        <th><h3 class="RowCenter">Income</h3></th>
-        <th><h3 class="RowCenter">Expense</h3></th>
-    </tr>    
-    <tr>
-        <td>
-            <table class="table" style="background-color:rgba(0,38,255,0.4); border-bottom-left-radius:8px;border-bottom-right-radius:8px;">
-                <tr style="background-color:black">
-                    <th>
-                        Income Name
-                    </th>
-                    <th>
-                        Amount
-                    </th>     
-                </tr>
-
-                @foreach (var item in Model.incs)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.I_Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
+@using (Html.BeginForm())
+{
+    <br />
+    <p>Select a Month and show information from that month forward</p>
+   @Html.DropDownList("StartMonth", new SelectList(ViewBag.DatesList, Model), new { @Class = "form-control" })
+    <br /><input type="submit" value="Go" class="btn-primary" />
+    <br />
+    <br />
+    <div class="FilterDivAdmin">
+        <p>Total Income: @ViewBag.TotalInc</p>
+        <p>Total Expense: @ViewBag.TotalExp</p>
+        <p>Summary: @ViewBag.Summary</p>
+        <img class="RoundChart" src=@Url.Action("NetDoughnutChart","Finances", new { ChartDate = ViewBag.ChartDate }) />
+    </div>
+    <table class="Financetable">
+        <tr>
+            <th><h3 class="RowCenter">Income</h3></th>
+            <th><h3 class="RowCenter">Expense</h3></th>
+        </tr>
+        <tr>
+            <td>
+                <table class="table" style="background-color:rgba(0,38,255,0.4); border-bottom-left-radius:8px;border-bottom-right-radius:8px;">
+                    <tr style="background-color:black">
+                        <th>
+                            Income Name
+                        </th>
+                        <th>
+                            Amount
+                        </th>
                     </tr>
-                }
 
-            </table>
-        </td>
-        <td>
-            <table class="table" style="background-color:rgba(255,106,0,0.4); border-bottom-left-radius:8px;border-bottom-right-radius:8px;">
-                <tr  style="background-color:black">
-                    <th>
-                        Expense Name
-                    </th>
-                    <th>
-                        Amount
-                    </th>      
-                </tr>
-
-                @foreach (var item in Model.exps)
+                    @foreach (var item in Model.incs)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.E_Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.I_Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </td>
+            <td>
+                <table class="table" style="background-color:rgba(255,106,0,0.4); border-bottom-left-radius:8px;border-bottom-right-radius:8px;">
+                    <tr style="background-color:black">
+                        <th>
+                            Expense Name
+                        </th>
+                        <th>
+                            Amount
+                        </th>
                     </tr>
-                }
 
-            </table>
+                    @foreach (var item in Model.exps)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.E_Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                        </tr>
+                    }
 
-        </td>
-    </tr>
-</table>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+}

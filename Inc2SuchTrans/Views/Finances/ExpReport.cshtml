@@ -1,14 +1,21 @@
 ﻿@model IEnumerable<Inc2SuchTrans.ViewModels.ExpenseVM>
 @{ Layout = "~/Views/Finances/_FinanceLayout.cshtml"; }
-
+@using (Html.BeginForm())
+{
+    @ViewBag.Mike
 <h1>Expense Information</h1>
-<br />
-<img class="RoundChart" src="@Url.Action("ExpenseBarGraph")" alt="Chart Unavaliable" /><br /><br /><br />
-<img class="RoundChart" src="@Url.Action("ExpensePieChart")" alt="Chart Unavaliable" /><br /><br /><br />
-<h1>All Expense Transactions</h1>
-<br />
-@Html.TextBoxFor(model=>model.First().T_Date, new { @class = "datetimepicker1 form-control", placeholder="Enter Date Here", type = "datetime" })
 <br/>
+        <p>Select a Month and show information from that month forward</p>
+        @Html.DropDownList("StartMonth", new SelectList(ViewBag.DatesList, Model), new { @Class = "form-control" })
+        <br /><input type="submit" value="Go" class="btn-primary"/>
+    
+    <br />
+    <br />
+    <img class="RoundChart" src="@Url.Action("ExpenseBarGraph", new { ChartDate = ViewBag.ChartDate })" alt="Chart Unavaliable" /><br /><br /><br />
+    <img class="RoundChart" src="@Url.Action("ExpensePieChart", new { ChartDate = ViewBag.ChartDate })" alt="Chart Unavaliable" /><br /><br /><br />
+
+<h1>Expense Transactions</h1>
+<br />
 <table class="table">
     <tr>
         <th>
@@ -32,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.T_ID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.T_Date)
+                @Html.DisplayFor(modelItem => item.T_Date.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.E_Name)
@@ -44,6 +51,7 @@
     }
 
 </table>
+}
 
 <script type="text/javascript">
             $(function () {
