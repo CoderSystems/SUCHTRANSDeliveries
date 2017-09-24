@@ -465,6 +465,36 @@ namespace Inc2SuchTrans.Controllers
             }
         }
 
+        public ActionResult BookFromQuote(int? id)
+        {
+                Delivery SampDel = new Delivery();
+                Quote q = logic.searchQuote(id);
+                SampDel.CargoSize = q.CargoSize;
+                SampDel.CargoWeight = q.CargoWeight;
+                SampDel.DropOffArea = q.DropOffArea;
+                SampDel.PickUpArea = q.PickUpArea;
+                this.Session["CSize"] = q.CargoSize;
+                this.Session["CWeight"] = q.CargoWeight;
+                this.Session["DropOffA"] = q.DropOffArea;
+                this.Session["PickUpA"] = q.PickUpArea;
+
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+
+            ViewBag.DropOffArea = new SelectList(dropOff, "Area", "Area", q.DropOffArea);
+                ViewBag.PickUpAreaList = new SelectList(pickUp, "PickUpArea", "PickUpArea", q.PickUpArea);
+                return View(SampDel);
+            
+        }
         /// <summary>
         /// get
         /// </summary>

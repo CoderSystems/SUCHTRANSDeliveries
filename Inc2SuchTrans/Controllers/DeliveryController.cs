@@ -149,7 +149,240 @@ namespace Inc2SuchTrans.Controllers
             return View();
 
         }
+        [HttpGet]
+        public ActionResult CreateFromQuote(int? id)
+        {
+            Quote q = qlogic.searchQuote(id);
+            Delivery del = new Delivery();
+            del.PickUpArea = q.PickUpArea;
+            del.DropOffArea = q.DropOffArea;
+            del.CargoSize = q.CargoSize;
+            del.CargoWeight = q.CargoWeight;
+            ViewBag.QID = id;
+            return View(del);
+        }
+        [AuthLog(Roles = "Customer")]
+        [HttpPost]
+        public ActionResult CreateFromQuote(string userId, string DeliveryDate, string PickUpArea, string DropOffArea, string DropOffAdd, string CargoSize, string CargoWeight, int QuoteID)
+        {
+            if(String.IsNullOrEmpty(userId))
+            {
+                userId = User.Identity.GetUserId();
+            }
+            ViewBag.QID = QuoteID;
+            Quote q = qlogic.searchQuote(QuoteID);
+            Delivery olddel = new Delivery();
+            olddel.PickUpArea = q.PickUpArea;
+            olddel.DropOffArea = q.DropOffArea;
+            olddel.CargoSize = q.CargoSize;
+            olddel.CargoWeight = q.CargoWeight;
 
+            if (String.IsNullOrEmpty(DeliveryDate))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (System.Convert.ToDateTime(DeliveryDate) <= DateTime.Today)
+            {
+                Danger("Delivery Date is Invalid, Please Try Again");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (String.IsNullOrEmpty(PickUpArea))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (String.IsNullOrEmpty(DropOffArea))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (String.IsNullOrEmpty(DropOffAdd))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (String.IsNullOrEmpty(CargoSize))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+            if (String.IsNullOrEmpty(CargoWeight))
+            {
+                Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+
+            DateTime DDate = DateTime.Parse(DeliveryDate);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    decimal weight;
+                    int size;
+                    double temp = Double.Parse(CargoWeight, CultureInfo.InvariantCulture);
+                    temp = Math.Round(temp, 2);
+                    decimal.TryParse(temp.ToString("0.00"), out weight);
+                    int.TryParse(CargoSize, out size);
+                    string dateref = System.DateTime.Now.ToString().Substring(17, 2);
+
+                    Delivery del = new Delivery();
+                    del.CustomerID = custLogic.getCurrentUserId(User.Identity.GetUserId()); ;
+                    del.CurrentDate = System.DateTime.Now;
+                    del.DeliveryDate = Convert.ToDateTime(DeliveryDate);
+                    del.PickUpArea = PickUpArea;
+                    del.DropOffArea = DropOffArea;
+                    del.DropOffAdd = DropOffAdd;
+                    del.CargoSize = size;
+                    del.CargoWeight = weight;
+                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight);
+                    del.DeliveryRef = (dateref + del.CustomerID + del.PickUpArea.Substring(1, 1) + dateref + del.DropOffArea.Substring(3, 1) + "st").Replace(" ", "");
+                    del.Paid = false;
+                    del.DeliveryStatus = "Waiting";
+
+                    logic.addDelivery(del);
+
+                    Deliveryjob dj = new Deliveryjob();
+                    dj.DelID = del.DelID;
+                    dj.JobStatus = "Waiting";
+                    dj.TruckID = null;
+                    dj.DriverID = null;
+                    dj.PortDelay = false;
+                    djlogic.addDeliveryJob(dj);
+
+                    return RedirectToAction("YourDeliveries", new { id = del.CustomerID });
+                }
+                catch (Exception e)
+                {
+                    Danger("Error: " + e.Message);
+                    IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                    {
+                        Value = c.Area,
+                        Text = c.Area
+                    });
+
+                    IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                    {
+                        Value = c.PickUpArea,
+                        Text = c.PickUpArea
+                    });
+                    ViewBag.DropOffArea = dropOff;
+                    ViewBag.PickUpArea = pickUp;
+                    return View(olddel);
+                }
+            }
+            else
+            {
+                Danger("Oops! Something went wrong.. <br> Please contact support..");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View(olddel);
+            }
+
+        }
         /// <summary>
         /// 
         /// </summary>

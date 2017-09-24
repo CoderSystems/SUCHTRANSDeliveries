@@ -3,12 +3,13 @@
 @{
     ViewBag.Title = "Contact";
     STLogisticsEntities db = new STLogisticsEntities();
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     .DisplayImg {
-        width: 100%;
-        margin: 0;
-        padding: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
         float: right;
     }
 </style>
@@ -43,8 +44,8 @@
                 <h3>Give us a call</h3>
                 <hr />
                 <div class="ContactTableCell">
-                    <address style="background-color: rgba(255,140,0,0.7); width:auto; margin-left: auto; margin-right: auto; border-radius:10px;">
-                        <ul>
+                    <address style="background-color: rgba(255,140,0,0.5); width:auto; margin-left: auto; margin-right: auto; border-radius:10px;">
+                        <ul style="width:auto">
                             <li>SUCHTRANS cc</li>
                             <li>LOGISTIC SERVICES</li>
                             <li>774 Silverglen, Chatsworth</li>
@@ -70,7 +71,7 @@
                         )
 
                     </div>
-                    <div style="background-color: rgba(255,140,0,0.7); width:auto; margin-left: auto; margin-right: auto; border-radius:10px; padding-left:50px">
+                    <div style="background-color: rgba(255,140,0,0.5); width:auto; margin-left: auto; margin-right: auto; border-radius:10px; padding-left:50px">
                         <h3>We are now on Social Media</h3>
 
                         <a style="color:black;" href="www.facebook.com"><p>Find us on Facebook:<img height="75" src="~/Content/Images/Facebook.svg" alt="Twitter" /></p></a>

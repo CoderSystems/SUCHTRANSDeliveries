@@ -76,6 +76,12 @@
                             @Html.ActionLink("Email Quote", "EmailQuote", new { id = Model.QuoteID })
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            @*@Html.ActionLink("Book Delivery", "CreateFromQuote","Delivery", new { id = Model.QuoteID })*@
+                            @Html.ActionLink("Book Delivery", "CreateFromQuote", "Delivery", new { id = Model.QuoteID}, new { @class = "OrangeButtonLink"})
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
