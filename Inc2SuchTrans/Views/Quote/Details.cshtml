@@ -76,10 +76,10 @@
                             @Html.ActionLink("Email Quote", "EmailQuote", new { id = Model.QuoteID })
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="alert-success">
                         <td>
                             @*@Html.ActionLink("Book Delivery", "CreateFromQuote","Delivery", new { id = Model.QuoteID })*@
-                            @Html.ActionLink("Book Delivery", "CreateFromQuote", "Delivery", new { id = Model.QuoteID}, new { @class = "OrangeButtonLink"})
+                            @Html.ActionLink("Book Delivery", "CreateFromQuote", "Delivery", new { id = Model.QuoteID}, new { @class = "alert-success" })
                         </td>
                     </tr>
                 </tbody>
