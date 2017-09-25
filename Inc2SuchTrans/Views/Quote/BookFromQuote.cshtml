@@ -10,7 +10,7 @@
 @{ Html.RenderPartial("_Alerts"); }
 @using (Html.BeginForm())
 {
-
+    @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-horizontal FilterDiv">
         <hr />
 

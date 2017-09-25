@@ -259,8 +259,15 @@ namespace Inc2SuchTrans.Controllers
                     //
 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    if(Role == "Admin" || Role == "Driver")
+                    {
+                        return RedirectToAction("AdditionalInformation", new { userId = user.Id, Position = Role });
+                    }         
+                    if(Role == "Customer")
+                    {
+                        return RedirectToAction("Register", "Account", new { model = model });
+                    }               
 
-                    return RedirectToAction("AdditionalInformation", new { userId = user.Id, Position = Role });
                 }
                 AddErrors(result);
             }

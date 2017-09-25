@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inc2SuchTrans.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Inc2SuchTrans.BLL
 {
@@ -158,9 +159,14 @@ namespace Inc2SuchTrans.BLL
         {
             try
             {
-                Customer cust = db.Customer.ToList().Find(x => x.UserID == UserId);
-                List<Delivery> del = db.Delivery.ToList().FindAll(x => x.CustomerID == cust.CustomerID).ToList();
-                return del;
+                var cust = db.Customer.ToList().Find(x=>x.UserID == UserId);
+                //if(cust != null)
+                
+                    List<Delivery> del = db.Delivery.ToList().FindAll(x => x.CustomerID == cust.CustomerID).ToList();
+                    return del;
+                
+                
+                
             }
             catch(Exception e)
             {

@@ -135,28 +135,10 @@
 
     @Scripts.Render("~/bundles/datetime")
 
-    @RenderSection("scripts", required: false)
+   
 
 
-    @section Scripts {
-
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/cssjqryUi")
-
-    <script type="text/javascript">
-
-     $(document).ready(function () {
-         $('.datetimepicker').datepicker({
-             dateFormat: "dd/M/yy",
-             changeMonth: true,
-             changeYear: true,
-             yearRange: "-60:+0"
-         });
-
-     });
-    </script>
-
-    }
+    
 
 </body>
 </html>

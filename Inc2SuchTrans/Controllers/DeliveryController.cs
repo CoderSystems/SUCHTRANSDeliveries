@@ -317,6 +317,7 @@ namespace Inc2SuchTrans.Controllers
                     decimal.TryParse(temp.ToString("0.00"), out weight);
                     int.TryParse(CargoSize, out size);
                     string dateref = System.DateTime.Now.ToString().Substring(17, 2);
+                    string uid = User.Identity.GetUserId();
 
                     Delivery del = new Delivery();
                     del.CustomerID = custLogic.getCurrentUserId(User.Identity.GetUserId()); ;
@@ -875,7 +876,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     Danger("Oops! Something went wrong.. <br> Please contact support");
                     List<Delivery> yourDeliveries = logic.searchCustomerDeliveries(User.Identity.GetUserId());
-                    return View(yourDeliveries);
+                    return View("yourDeliveries", User.Identity.GetUserId());
                     throw e;
                 }
             }

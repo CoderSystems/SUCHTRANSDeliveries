@@ -185,8 +185,10 @@ namespace Inc2SuchTrans.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                        return RedirectToAction("AdditionalInformation", new { userId = user.Id });
+                        ViewBag.UserName = User.Identity.GetUserName();
+                        Customer cust = new Customer();
+                        cust.Email = User.Identity.GetUserName();
+                        return RedirectToAction("AdditionalInformation", cust);
                     }
                     AddErrors(result);
                 }
@@ -200,15 +202,21 @@ namespace Inc2SuchTrans.Controllers
                 return View();
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public ActionResult AdditionalInformation()
         {
+
             return View();
         }
+        [HttpGet]
+        public ActionResult AdditionalInformation(Customer cust)
+        {
+            return View(cust);
+        }
+
 
         [HttpPost]
         public ActionResult AdditionalInformation(string userId, string CustomerName, string CustomerSurname, string IDNumber, string City, string CustomerAddress, string PostalCode, string ContactNumber)
