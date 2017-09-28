@@ -78,6 +78,9 @@ namespace Inc2SuchTrans.BLL
                 entry.Property(x => x.Email).IsModified = true;
                 entry.Property(x => x.IDNumber).IsModified = true;
                 entry.Property(x => x.LastModified).IsModified = true;
+                entry.Property(x => x.LoyaltyPoints).IsModified = true;
+                entry.Property(x => x.LastBooking).IsModified = true;
+                entry.Property(x => x.ExpDate).IsModified = true;
 
                 db.SaveChanges();
             }
