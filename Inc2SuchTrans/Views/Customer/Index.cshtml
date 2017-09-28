@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Inc2SuchTrans.Models.Customer>
-@{
+@model IEnumerable<Inc2SuchTrans.Models.Customer>
 
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 
 @{ Html.RenderPartial("_Alerts"); }
 
@@ -39,6 +41,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AspNetUsers.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.LoyaltyPoints)
             </th>
             <th></th>
         </tr>
@@ -80,9 +85,12 @@
                     @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+                    @Html.DisplayFor(modelItem => item.LoyaltyPoints)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "CustomerEdit","Admin", new { id = item.CustomerID },null) |
+                    @Html.ActionLink("Details", "CustomerDetails","Admin", new { id = item.CustomerID },null) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })*@
                 </td>
             </tr>
         }
