@@ -49,6 +49,10 @@
       <HintPath>..\packages\hiqpdf.10.9\lib\net40\HiQPdf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Jmelosegui.Mvc.GoogleMap, Version=0.8.0.0, Culture=neutral, PublicKeyToken=bf3d287218d508fe, processorArchitecture=MSIL">
       <HintPath>..\packages\Jmelosegui.Mvc.Googlemap.0.8.0.0\lib\net45\Jmelosegui.Mvc.GoogleMap.dll</HintPath>
       <Private>True</Private>
@@ -223,6 +227,7 @@
     <Compile Include="BLL\TruckDriverLogic.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BreakdownController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -231,10 +236,12 @@
     <Compile Include="Controllers\FinancesController.cs" />
     <Compile Include="Controllers\FleetController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\latsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapsController.cs" />
     <Compile Include="Controllers\PrioritizationController.cs" />
     <Compile Include="Controllers\QuoteController.cs" />
+    <Compile Include="Controllers\RatingController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StaticDataController.cs" />
     <Compile Include="Controllers\TruckDriverController.cs" />
@@ -260,6 +267,24 @@
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>StContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Attendance.cs">
+      <DependentUpon>StContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttendanceModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttendanceModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttendanceModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttendanceModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\BootstrapAlertType.cs" />
     <Compile Include="Models\Breakdowns.cs">
@@ -290,14 +315,14 @@
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Expense.cs">
-      <DependentUpon>STTransactions.tt</DependentUpon>
+      <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Fleet.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Income.cs">
-      <DependentUpon>STTransactions.tt</DependentUpon>
+      <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobQueue.cs">
       <DependentUpon>StContext.tt</DependentUpon>
@@ -324,23 +349,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\STTransactions.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>STTransactions.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STTransactions.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>STTransactions.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STTransactions.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>STTransactions.edmx</DependentUpon>
+    <Compile Include="Models\TrackDelivery.cs">
+      <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TransactionTable.cs">
-      <DependentUpon>STTransactions.tt</DependentUpon>
+      <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TruckDriver.cs">
       <DependentUpon>StContext.tt</DependentUpon>
@@ -360,6 +373,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\customsidebar.css" />
     <Content Include="Content\customNavbar.css" />
+    <Content Include="Content\Images\1Star.jpg" />
     <Content Include="Content\Images\circles-and-roundabouts.png" />
     <Content Include="Content\Images\flatbed-tow-truck-clipart-2.png" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -372,12 +386,17 @@
     <Content Include="Content\Images\Mountain Roads Truck.jpg" />
     <Content Include="Content\Images\Paperwork.jpg" />
     <Content Include="Content\Images\Phone3.png" />
+    <Content Include="Content\Images\rating.png" />
     <Content Include="Content\Images\Shadow Truck.jpg" />
     <Content Include="Content\Images\skyscraper.png" />
     <Content Include="Content\Images\square_bg_%402X.png" />
     <Content Include="Content\Images\Transport-Trucking-Driving-Freeway-Transportation-1495618.jpg" />
     <Content Include="Content\Images\Twitter.svg" />
+    <Content Include="Content\Images\whitestar.png" />
+    <Content Include="Content\Images\whitestar1.png" />
     <Content Include="Content\Images\Wifi.png" />
+    <Content Include="Content\Images\yellowstar.png" />
+    <Content Include="Content\Images\yellowstar1.png" />
     <Content Include="Content\outPopUp.css" />
     <Content Include="Content\Images\Container Yard.jpg" />
     <Content Include="Content\Mike.css" />
@@ -428,6 +447,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\AttendanceModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceModel.edmx</DependentUpon>
+      <LastGenOutput>AttendanceModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AttendanceModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceModel.edmx</DependentUpon>
+      <LastGenOutput>AttendanceModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\StContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>StContext.edmx</DependentUpon>
@@ -531,26 +560,16 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <EntityDeploy Include="Models\STTransactions.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>STTransactions.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\STTransactions.edmx.diagram">
-      <DependentUpon>STTransactions.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <EntityDeploy Include="Models\AttendanceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AttendanceModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AttendanceModel.edmx.diagram">
+      <DependentUpon>AttendanceModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\SuchTransInc2.pubxml" />
-    <Content Include="Models\STTransactions.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>STTransactions.edmx</DependentUpon>
-      <LastGenOutput>STTransactions.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\STTransactions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>STTransactions.edmx</DependentUpon>
-      <LastGenOutput>STTransactions.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -564,6 +583,10 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.timepicker.js" />
+    <Content Include="Scripts\jquery.timepicker.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -683,6 +706,20 @@
     <Content Include="Views\Finances\IncomeStat.cshtml" />
     <Content Include="Views\Quote\BookFromQuote.cshtml" />
     <Content Include="Views\Delivery\CreateFromQuote.cshtml" />
+    <Content Include="Views\Rating\rateNow.cshtml" />
+    <Content Include="Views\Rating\showratenow.cshtml" />
+    <Content Include="Views\Admin\CustomerDetails.cshtml" />
+    <Content Include="Views\Admin\CustomerEdit.cshtml" />
+    <Content Include="Views\Attendances\Index.cshtml" />
+    <Content Include="Views\Attendances\Details.cshtml" />
+    <Content Include="Views\Attendances\Create.cshtml" />
+    <Content Include="Views\Attendances\Edit.cshtml" />
+    <Content Include="Views\Attendances\Delete.cshtml" />
+    <Content Include="Views\lats\Index.cshtml" />
+    <Content Include="Views\lats\Details.cshtml" />
+    <Content Include="Views\lats\Create.cshtml" />
+    <Content Include="Views\lats\Edit.cshtml" />
+    <Content Include="Views\lats\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

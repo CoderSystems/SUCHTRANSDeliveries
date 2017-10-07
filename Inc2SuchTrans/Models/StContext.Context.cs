@@ -44,5 +44,10 @@ namespace Inc2SuchTrans.Models
         public virtual DbSet<Breakdowns> Breakdowns { get; set; }
         public virtual DbSet<ArchivedDeliveries> ArchivedDeliveries { get; set; }
         public virtual DbSet<Contact> Contact { get; set; }
+        public virtual DbSet<Attendance> Attendance { get; set; }
+        public virtual DbSet<Expense> Expense { get; set; }
+        public virtual DbSet<Income> Income { get; set; }
+        public virtual DbSet<TransactionTable> TransactionTable { get; set; }
+        public virtual DbSet<TrackDelivery> TrackDelivery { get; set; }
     }
 }

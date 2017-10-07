@@ -13,10 +13,10 @@ namespace Inc2SuchTrans.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class STTransactionEntities : DbContext
+    public partial class STAttendanceEntities : DbContext
     {
-        public STTransactionEntities()
-            : base("name=STTransactionEntities")
+        public STAttendanceEntities()
+            : base("name=STAttendanceEntities")
         {
         }
     
@@ -25,10 +25,7 @@ namespace Inc2SuchTrans.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Expense> Expenses { get; set; }
-        public virtual DbSet<Income> Incomes { get; set; }
-        public virtual DbSet<TransactionTable> TransactionTables { get; set; }
-
-        public System.Data.Entity.DbSet<Inc2SuchTrans.ViewModels.ExpenseVM> ExpenseVMs { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<TruckDriver> TruckDrivers { get; set; }
     }
 }

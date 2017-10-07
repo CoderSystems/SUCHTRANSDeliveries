@@ -7,25 +7,28 @@ using Inc2SuchTrans.Models;
 using Inc2SuchTrans.ViewModels;
 using System.Web.Helpers;
 using Inc2SuchTrans.BLL;
+using Inc2SuchTrans.CustomFilters;
 
 namespace Inc2SuchTrans.Controllers
 {
     public class FinancesController : Controller
     {
-        STTransactionEntities FDB = new STTransactionEntities();
+        STLogisticsEntities FDB = new STLogisticsEntities();
         // GET: Finance
+        [AuthLog(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [AuthLog(Roles = "Admin")]
         public ActionResult IncomeStat()
         {
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
 
-            var incDeff = FDB.Incomes;
-            var TList = FDB.TransactionTables;
+            var incDeff = FDB.Income;
+            var TList = FDB.TransactionTable;
             ViewBag.ChartDate = null;
             var incs = new List<IncomeVM>();
             foreach (TransactionTable t in TList)
@@ -34,7 +37,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     IncomeVM newinc = new IncomeVM();
                     newinc.T_ID = t.T_ID;
-                    newinc.T_Date = t.T_Date;
+                    newinc.T_Date = t.T_Date.Value.Date;
                     newinc.Amount = t.Amount;
                     newinc.I_Code = t.I_Code;
                     foreach (Income i in incDeff)
@@ -49,14 +52,14 @@ namespace Inc2SuchTrans.Controllers
 
             return View(incs);
         }
-
+        [AuthLog(Roles = "Admin")]
         [HttpPost]
         public ActionResult IncomeStat(DateTime StartMonth)
         {
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
-            var incDeff = FDB.Incomes;
-            var TList = FDB.TransactionTables;
+            var incDeff = FDB.Income;
+            var TList = FDB.TransactionTable;
             var incs = new List<IncomeVM>();
             foreach (TransactionTable t in TList)
             {
@@ -64,7 +67,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     IncomeVM newinc = new IncomeVM();
                     newinc.T_ID = t.T_ID;
-                    newinc.T_Date = t.T_Date;
+                    newinc.T_Date = t.T_Date.Value.Date;
                     newinc.Amount = t.Amount;
                     newinc.I_Code = t.I_Code;
                     foreach (Income i in incDeff)
@@ -83,6 +86,7 @@ namespace Inc2SuchTrans.Controllers
             return View(incs);
         }
 
+        [AuthLog(Roles = "Admin")]
         public ActionResult ExpReport()
         {
             ViewBag.ChartDate = null;
@@ -90,8 +94,8 @@ namespace Inc2SuchTrans.Controllers
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
 
-            var expDeff = FDB.Expenses;
-            var TList = FDB.TransactionTables;
+            var expDeff = FDB.Expense;
+            var TList = FDB.TransactionTable;
             var exps = new List<ExpenseVM>();
             foreach (TransactionTable t in TList)
             {
@@ -99,7 +103,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     ExpenseVM newexp = new ExpenseVM();
                     newexp.T_ID = t.T_ID;
-                    newexp.T_Date = t.T_Date;
+                    newexp.T_Date = t.T_Date.Value.Date;
                     newexp.Amount = t.Amount;
                     newexp.E_Code = t.E_Code;
                     foreach (Expense e in expDeff)
@@ -114,14 +118,15 @@ namespace Inc2SuchTrans.Controllers
             return View(exps);
         }
 
+        [AuthLog(Roles = "Admin")]
         [HttpPost]
         public ActionResult ExpReport(DateTime StartMonth)
         {
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
 
-            var expDeff = FDB.Expenses;
-            var TList = FDB.TransactionTables;
+            var expDeff = FDB.Expense;
+            var TList = FDB.TransactionTable;
             var exps = new List<ExpenseVM>();
 
             ViewBag.ChartDate = StartMonth;
@@ -133,7 +138,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         ExpenseVM newexp = new ExpenseVM();
                         newexp.T_ID = t.T_ID;
-                        newexp.T_Date = t.T_Date.Date;
+                        newexp.T_Date = t.T_Date.Value.Date;
                         newexp.Amount = t.Amount;
                         newexp.E_Code = t.E_Code;
                         foreach (Expense e in expDeff)
@@ -151,15 +156,16 @@ namespace Inc2SuchTrans.Controllers
             return View(exps);
         }
 
+        [AuthLog(Roles = "Admin")]
         public ActionResult FinanSumm()
         {
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
 
             ViewBag.ChartDate = null;
-            IEnumerable<TransactionTable> TransactionList = FDB.TransactionTables;
-            var expDeff = FDB.Expenses;
-            var incDeff = FDB.Incomes;
+            IEnumerable<TransactionTable> TransactionList = FDB.TransactionTable;
+            var expDeff = FDB.Expense;
+            var incDeff = FDB.Income;
             List<ExpenseVM> el = new List<ExpenseVM>();
             List<IncomeVM> il = new List<IncomeVM>();
             decimal? TotalInc = 0;
@@ -173,7 +179,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     ExpenseVM e = new ExpenseVM();
                     e.T_ID = t.T_ID;
-                    e.T_Date = t.T_Date;
+                    e.T_Date = t.T_Date.Value.Date;
                     e.Amount = t.Amount;
                     e.E_Code = t.E_Code;
                     foreach(Expense oe in expDeff)
@@ -190,7 +196,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     IncomeVM i = new IncomeVM();
                     i.T_ID = t.T_ID;
-                    i.T_Date = t.T_Date;
+                    i.T_Date = t.T_Date.Value.Date;
                     i.Amount = t.Amount;
                     i.I_Code = t.I_Code;
                     foreach (Income oi in incDeff)
@@ -226,14 +232,15 @@ namespace Inc2SuchTrans.Controllers
             return View(VM);
         }
 
+        [AuthLog(Roles = "Admin")]
         [HttpPost]
         public ActionResult FinanSumm(DateTime StartMonth)
         {
             List<string> DateList = TransactionLogic.ListOfDates();
             ViewBag.DatesList = DateList;
-            IEnumerable<TransactionTable> TransactionList = FDB.TransactionTables;
-            var expDeff = FDB.Expenses;
-            var incDeff = FDB.Incomes;
+            IEnumerable<TransactionTable> TransactionList = FDB.TransactionTable;
+            var expDeff = FDB.Expense;
+            var incDeff = FDB.Income;
             List<ExpenseVM> el = new List<ExpenseVM>();
             List<IncomeVM> il = new List<IncomeVM>();
             decimal? TotalInc = 0;
@@ -247,7 +254,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     ExpenseVM e = new ExpenseVM();
                     e.T_ID = t.T_ID;
-                    e.T_Date = t.T_Date;
+                    e.T_Date = t.T_Date.Value.Date;
                     e.Amount = t.Amount;
                     e.E_Code = t.E_Code;
                     foreach (Expense oe in expDeff)
@@ -267,7 +274,7 @@ namespace Inc2SuchTrans.Controllers
                 {
                     IncomeVM i = new IncomeVM();
                     i.T_ID = t.T_ID;
-                    i.T_Date = t.T_Date;
+                    i.T_Date = t.T_Date.Value.Date;
                     i.Amount = t.Amount;
                     i.I_Code = t.I_Code;
                     foreach (Income oi in incDeff)
@@ -309,8 +316,8 @@ namespace Inc2SuchTrans.Controllers
 
         public ActionResult IncomeBarGraph(DateTime? ChartDate)
         {
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Income> incDeff = FDB.Incomes;
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTable;
+            IEnumerable<Income> incDeff = FDB.Income;
             List<IncomeVM> IncList = new List<IncomeVM>();
 
             foreach (TransactionTable t in AllT)
@@ -322,7 +329,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         IncomeVM newinc = new IncomeVM();
                         newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
+                        newinc.T_Date = t.T_Date.Value.Date;
                         newinc.Amount = t.Amount;
                         newinc.I_Code = t.I_Code;
                         foreach (Income i in incDeff)
@@ -397,8 +404,8 @@ namespace Inc2SuchTrans.Controllers
         {
             
             
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Expense> incDeff = FDB.Expenses;
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTable;
+            IEnumerable<Expense> incDeff = FDB.Expense;
             List<ExpenseVM> IncList = new List<ExpenseVM>();
 
             foreach (TransactionTable t in AllT)
@@ -410,7 +417,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         ExpenseVM newinc = new ExpenseVM();
                         newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
+                        newinc.T_Date = t.T_Date.Value.Date;
                         newinc.Amount = t.Amount;
                         newinc.E_Code = t.E_Code;
                         foreach (Expense i in incDeff)
@@ -482,8 +489,8 @@ namespace Inc2SuchTrans.Controllers
         public ActionResult ExpensePieChart(DateTime? ChartDate)
         {
 
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Expense> incDeff = FDB.Expenses;
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTable;
+            IEnumerable<Expense> incDeff = FDB.Expense;
             List<ExpenseVM> IncList = new List<ExpenseVM>();
 
             foreach (TransactionTable t in AllT)
@@ -495,7 +502,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         ExpenseVM newinc = new ExpenseVM();
                         newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
+                        newinc.T_Date = t.T_Date.Value.Date;
                         newinc.Amount = t.Amount;
                         newinc.E_Code = t.E_Code;
                         foreach (Expense i in incDeff)
@@ -571,8 +578,8 @@ namespace Inc2SuchTrans.Controllers
 
         public ActionResult IncomePieChart(DateTime? ChartDate)
         {
-            IEnumerable<TransactionTable> AllT = FDB.TransactionTables;
-            IEnumerable<Income> incDeff = FDB.Incomes;
+            IEnumerable<TransactionTable> AllT = FDB.TransactionTable;
+            IEnumerable<Income> incDeff = FDB.Income;
             List<IncomeVM> IncList = new List<IncomeVM>();
 
             foreach (TransactionTable t in AllT)
@@ -584,7 +591,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         IncomeVM newinc = new IncomeVM();
                         newinc.T_ID = t.T_ID;
-                        newinc.T_Date = t.T_Date;
+                        newinc.T_Date = t.T_Date.Value.Date;
                         newinc.Amount = t.Amount;
                         newinc.I_Code = t.I_Code;
                         foreach (Income i in incDeff)
@@ -659,7 +666,7 @@ namespace Inc2SuchTrans.Controllers
 
         public ActionResult NetDoughnutChart(DateTime? ChartDate)
         {
-                IEnumerable<TransactionTable> TList = FDB.TransactionTables;
+                IEnumerable<TransactionTable> TList = FDB.TransactionTable;
                 decimal? Tinc = 0;
                 decimal? Texp = 0;
                 foreach (TransactionTable t in TList)
@@ -687,17 +694,11 @@ namespace Inc2SuchTrans.Controllers
             }
             List<string> xList = new List<string> { "Income", "Expense" };
             List<decimal?> yList = new List<decimal?> { Tinc, Texp };
-
-            string myTheme =
-                    @"<Chart BackColor=""Transparent"" >
-        	                                    <ChartAreas>
-                                                <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
-        	                                    </ChartAreas>
-        	                                </Chart>";
+            
             if (ChartDate != null)
             {
                 var MyChart = new Chart(width: 600, height: 400, theme:ChartTheme.Blue)
-                .AddTitle("Net Summary including and after " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
+                .AddTitle("Net Summary Including and After " + TransactionLogic.Month(ChartDate.Value.Month.ToString()) + " " + ChartDate.Value.Year)
                 .AddSeries(
                     name: "Data",
                     chartType: "Doughnut",

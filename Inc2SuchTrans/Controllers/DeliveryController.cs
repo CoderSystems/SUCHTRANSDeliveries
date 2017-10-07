@@ -149,6 +149,7 @@ namespace Inc2SuchTrans.Controllers
             return View();
 
         }
+        [AuthLog(Roles = "Customer")]
         [HttpGet]
         public ActionResult CreateFromQuote(int? id)
         {
@@ -650,12 +651,29 @@ namespace Inc2SuchTrans.Controllers
         [HttpPost]
         public ActionResult CreateFromSite(string userId, string DeliveryDate, string PickUpArea, string DropOffArea, string DropOffAdd, string CargoSize, string CargoWeight)
         {
-
             var CurrentCustomer = HttpContext.User.Identity.Name;
-            var CustT = db.Customer.ToList().Find(x => x.CustomerName==CurrentCustomer);
+            var CustT = db.Customer.ToList().Find(x => x.CustomerName == CurrentCustomer);
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
+                IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
+                {
+                    Value = c.Area,
+                    Text = c.Area
+                });
+
+                IEnumerable<SelectListItem> pickUp = db.Cargo.Select(c => new SelectListItem
+                {
+                    Value = c.PickUpArea,
+                    Text = c.PickUpArea
+                });
+                ViewBag.DropOffArea = dropOff;
+                ViewBag.PickUpArea = pickUp;
+                return View();
+            }
+            if(System.Convert.ToDateTime(DeliveryDate) <= DateTime.Today)
+            {
+                Danger("Delivery Date is Invalid, Please Try Again");
                 IEnumerable<SelectListItem> dropOff = db.AreaRates.Select(c => new SelectListItem
                 {
                     Value = c.Area,
@@ -808,8 +826,8 @@ namespace Inc2SuchTrans.Controllers
                         CustT.LoyaltyPoints = 0;
                     }
 
-                    del.DiscountCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight)* Convert.ToDecimal(Discount);
-                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight)-(logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount));
+                    del.DiscountCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount);
+                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - (logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount));
                     del.DeliveryRef = (dateref + del.CustomerID + del.PickUpArea.Substring(1, 1) + dateref + del.DropOffArea.Substring(3, 1) + "st").Replace(" ", "");
                     del.Paid = false;
                     del.DeliveryStatus = "Waiting";
@@ -1333,7 +1351,7 @@ namespace Inc2SuchTrans.Controllers
                 ArchivedDeliveries arcDel = new ArchivedDeliveries();
 
                 DateTime currentDate = DateTime.Now;
-                DateTime DeliveryDate = delivery.DeliveryDate;
+                DateTime DeliveryDate = delivery.DeliveryDate.Value;
 
                 double days = (DeliveryDate - currentDate).TotalDays;
 
@@ -1501,7 +1519,7 @@ namespace Inc2SuchTrans.Controllers
         public ActionResult ChangeDestination([Bind(Include = "DelID,CustomerID,CurrentDate,DeliveryDate,PickUpArea,DropOffArea,DropOffAdd,CargoSize,CargoWeight,TotalCost,Paid,DeliveryRef,DeliveryStatus")] Delivery delivery)
         {
             DateTime currentDate = DateTime.Now;
-            DateTime DeliveryDate = delivery.DeliveryDate;
+            DateTime DeliveryDate = delivery.DeliveryDate.Value;
 
             double days = (DeliveryDate - currentDate).TotalDays;
 

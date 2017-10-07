@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Inc2SuchTrans.Models.Attendance>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 style="font-family:Britannic">Attendance List</h2>
+<p style="font-size:large">
+    @Html.ActionLink("New Attendance", "Create")
+</p>
+<hr />
+<button type="button" class="btn btn-primary" style="padding-right:14px" onclick="location.href='@Url.Action("CreatePfd", "Attendances")';">
+    <i class="glyphicon glyphicon-folder-open"></i>  Generate Report
+</button>
+<br />
+<br />
+
+<table class="table table-striped table-hover table-responsive table-condensed table-bordered " id="datatable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceID)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Driver.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Driver.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Driver.DriverID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckInTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckOutTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendanceID)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Driver.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Driver.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Driver.DriverID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendanceDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckInTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckOutTime)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.AttendanceID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AttendanceID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AttendanceID })*@
+
+                <button style="width:27%" type="button" class="btn btn-warning col-sm-3" onclick="location.href='@Url.Action("Edit", "Attendances", new { id = item.AttendanceID })';">Edit</button>
+                <button style="width:27%" type="button" class="btn btn-info col-sm-3 col-sm-offset-1" onclick="location.href='@Url.Action("Details","Attendances",new { id = item.AttendanceID })';">Details</button>
+                <button style="width:27%" type="button" class="btn btn-danger col-sm-3 col-sm-offset-1" onclick="location.href='@Url.Action("Delete","Attendances",new { id = item.AttendanceID })';">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.tableTools.js"></script>
+
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.tableTools.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $('#datatable').dataTable();
+            var tableTools = new $.fn.dataTable.TableTools(table);
+            $(tableTools.fnContainer()).insertBefore('#datatable_wrapper');
+        });
+</script>
+

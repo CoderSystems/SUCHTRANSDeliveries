@@ -11,22 +11,19 @@ namespace Inc2SuchTrans.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Income
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Income()
         {
-            this.TransactionTables = new HashSet<TransactionTable>();
+            this.TransactionTable = new HashSet<TransactionTable>();
         }
     
-        [Key]
         public string Code { get; set; }
         public string I_Desc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TransactionTable> TransactionTables { get; set; }
+        public virtual ICollection<TransactionTable> TransactionTable { get; set; }
     }
 }

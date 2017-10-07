@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Devesh\Documents\Visual Studio 2015\Projects\Inc2SuchTrans\Inc2SuchTrans\Models\StContext.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Mike\Desktop\GitRepo\Inc2SuchTrans\Inc2SuchTrans\Models\StContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

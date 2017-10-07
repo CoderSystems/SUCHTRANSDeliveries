@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Inc2SuchTrans.Models.TrackDelivery>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<div style="font-family:Arial">
+
+    <h2 class="EveryHeader">Index</h2>
+    <div class="FilterDivAdmin"style="width:75%; margin:0px auto;">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        @using (Html.BeginForm("Index", "lats", FormMethod.Get))
+        {
+
+
+            <b>Search using id:</b><br /> @Html.RadioButton("searchby", "id")
+            <text>ID</text><br />
+            @Html.TextBox("search");
+            <input type="submit" value="search" />
+
+
+        }
+        <br />
+
+        <table class="DeliveryTable table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Longitude)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.TrackID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.TrackID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.TrackID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

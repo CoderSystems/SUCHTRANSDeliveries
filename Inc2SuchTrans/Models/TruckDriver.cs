@@ -18,6 +18,7 @@ namespace Inc2SuchTrans.Models
         public TruckDriver()
         {
             this.Deliveryjob = new HashSet<Deliveryjob>();
+            this.Attendance = new HashSet<Attendance>();
         }
     
         public int DriverID { get; set; }
@@ -28,5 +29,7 @@ namespace Inc2SuchTrans.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Deliveryjob> Deliveryjob { get; set; }
         public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendance { get; set; }
     }
 }

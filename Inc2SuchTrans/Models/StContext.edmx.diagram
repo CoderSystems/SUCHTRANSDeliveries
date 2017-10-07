@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="99dbd806187d45e7b5483eac72dcce13" Name="Diagram1">
+      <Diagram DiagramId="99dbd806187d45e7b5483eac72dcce13" Name="Diagram1" ZoomLevel="95">
         <EntityTypeShape EntityType="STLogisticsModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="STLogisticsModel.AreaRates" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="STLogisticsModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
@@ -36,6 +36,15 @@
         <EntityTypeShape EntityType="STLogisticsModel.Breakdowns" Width="1.5" PointX="0.75" PointY="11.75" />
         <EntityTypeShape EntityType="STLogisticsModel.ArchivedDeliveries" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="STLogisticsModel.Contact" Width="1.5" PointX="12.375" PointY="5.75" />
+        <EntityTypeShape EntityType="STLogisticsModel.Attendance" Width="1.5" PointX="9.75" PointY="13.125" />
+        <EntityTypeShape EntityType="STLogisticsModel.Expense" Width="1.5" PointX="12.375" PointY="13.375" />
+        <EntityTypeShape EntityType="STLogisticsModel.Income" Width="1.5" PointX="12.375" PointY="16.375" />
+        <EntityTypeShape EntityType="STLogisticsModel.TransactionTable" Width="1.5" PointX="14.625" PointY="13" />
+        <AssociationConnector Association="STLogisticsModel.FK__Attendanc__Check__656C112C" />
+        <AssociationConnector Association="STLogisticsModel.FK_EX" />
+        <AssociationConnector Association="STLogisticsModel.FK_IN" />
+        <EntityTypeShape EntityType="STLogisticsModel.TrackDelivery" Width="1.5" PointX="12" PointY="19.75" />
+        <AssociationConnector Association="STLogisticsModel.FK__TrackDeli__JobID__72C60C4A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

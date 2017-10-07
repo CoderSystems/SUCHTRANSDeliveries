@@ -33,6 +33,9 @@ namespace Inc2SuchTrans.Models
         public string ContactNumber { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
         public Nullable<System.DateTime> LastModified { get; set; }
+        public Nullable<int> LoyaltyPoints { get; set; }
+        public Nullable<System.DateTime> LastBooking { get; set; }
+        public Nullable<System.DateTime> ExpDate { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

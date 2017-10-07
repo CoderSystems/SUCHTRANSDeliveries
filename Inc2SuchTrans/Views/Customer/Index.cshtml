@@ -1,13 +1,12 @@
-@model IEnumerable<Inc2SuchTrans.Models.Customer>
-
+﻿@model IEnumerable<Inc2SuchTrans.Models.Customer>
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-
+<h1>SUCHTRANS Customers</h1>
 @{ Html.RenderPartial("_Alerts"); }
+<div class="FilterDivAdmin">
 
-    <table class="table-offtop table-bordered table-condensed">
+    <table class="table-bordered table-condensed">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CustomerName)
@@ -15,18 +14,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerSurname)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.IDNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.City)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerAddress)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.PostalCode)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
@@ -36,16 +35,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.LastModified)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.AspNetUsers.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model =>model.LoyaltyPoints)
+                @Html.DisplayNameFor(model => model.LoyaltyPoints)
             </th>
-            <th></th>
         </tr>
 
         @foreach (var item in Model)
@@ -57,18 +55,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomerSurname)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.IDNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomerAddress)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.PostalCode)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
@@ -78,9 +76,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.LastModified)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
                 </td>
@@ -88,12 +86,15 @@
                     @Html.DisplayFor(modelItem => item.LoyaltyPoints)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "CustomerEdit","Admin", new { id = item.CustomerID },null) |
-                    @Html.ActionLink("Details", "CustomerDetails","Admin", new { id = item.CustomerID },null) |
-                    @*@Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })*@
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })*@
+                   @Html.ActionLink("Edit", "CustomerEdit", "Admin", new { id = item.CustomerID }, null) |
+                   @Html.ActionLink("Details", "CustomerDetails", "Admin", new { id = item.CustomerID }, null) 
+                     @*@Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })*@
                 </td>
             </tr>
         }
 
     </table>
-
+</div>

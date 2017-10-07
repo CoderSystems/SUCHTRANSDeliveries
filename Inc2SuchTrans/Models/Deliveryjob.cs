@@ -18,6 +18,7 @@ namespace Inc2SuchTrans.Models
         public Deliveryjob()
         {
             this.JobQueue = new HashSet<JobQueue>();
+            this.TrackDelivery = new HashSet<TrackDelivery>();
         }
     
         public int JobID { get; set; }
@@ -32,5 +33,7 @@ namespace Inc2SuchTrans.Models
         public virtual Fleet Fleet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobQueue> JobQueue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TrackDelivery> TrackDelivery { get; set; }
     }
 }

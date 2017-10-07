@@ -535,3 +535,25 @@ body {
     height: auto;
     margin:0px auto;
 }
+#ratingTable
+{
+    max-width:100%;
+    margin:0px auto;
+    height:50px;
+}
+#ratingTable img
+{
+    height:3cm;
+    width:3cm;
+}
+#ratingTable td
+{
+    text-align:center;
+}
+.EditorDiv
+{
+    background-color:lightgrey;
+    color:black;
+    border-radius: 5px;
+    
+}

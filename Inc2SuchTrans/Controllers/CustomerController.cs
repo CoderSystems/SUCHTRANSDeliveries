@@ -21,28 +21,28 @@ namespace Inc2SuchTrans.Controllers
             {
                 return View(cLogic.returnAllCustomers());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Danger("Oops! Something went wrong..<br> Please contact support..");
                 return View();
                 throw e;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [AuthLog(Roles ="Customer")]
+        [AuthLog(Roles = "Customer")]
         public ActionResult Edit(int? id)
         {
             try
             {
                 Customer cust = cLogic.searchCustomer(id);
                 return View(cust);
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Danger("Oops! SOmething went wrong.. Please contact support");
                 return View();
@@ -52,9 +52,9 @@ namespace Inc2SuchTrans.Controllers
 
         [AuthLog(Roles = "Customer")]
         [HttpPost]
-        public ActionResult Edit(int id,string CustomerName, string CustomerSurname, string IDNumber, string City, string CustomerAddress, string PostalCode, string Email, string ContactNumber)
+        public ActionResult Edit(int id, string CustomerName, string CustomerSurname, string IDNumber, string City, string CustomerAddress, string PostalCode, string Email, string ContactNumber)
         {
-            if(String.IsNullOrEmpty(CustomerName))
+            if (String.IsNullOrEmpty(CustomerName))
             {
                 Danger("Please Enter Your Name!");
                 Customer cust = cLogic.searchCustomer(id);
@@ -64,7 +64,7 @@ namespace Inc2SuchTrans.Controllers
             try
             {
                 Customer cust = cLogic.searchCustomer(id);
-                if(cust!=null)
+                if (cust != null)
                 {
                     cust.UserID = User.Identity.GetUserId();
                     cust.CustomerName = CustomerName;
@@ -82,7 +82,7 @@ namespace Inc2SuchTrans.Controllers
                 Success("Successfully Updated Details!");
                 return RedirectToAction("Details", new { id = cust.CustomerID });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Danger("Oops! Something went wrong.. <br> Please contact support..");
                 return View();
@@ -90,11 +90,11 @@ namespace Inc2SuchTrans.Controllers
             }
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="id"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AuthLog(Roles = "Customer")]
         public ActionResult Details(int? id)
         {

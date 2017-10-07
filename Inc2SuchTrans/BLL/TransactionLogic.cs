@@ -10,7 +10,7 @@ namespace Inc2SuchTrans.BLL
 {
     public class TransactionLogic
     {
-        STTransactionEntities FDB = new STTransactionEntities();
+        STLogisticsEntities FDB = new STLogisticsEntities();
         public static List<string> ListOfDates()
         {
             List<string> DateList = new List<string>();

@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="FilterDiv">
+            <h4 class="EveryHeader">Update Your Details</h4>
+<div class="FilterDivAdmin">
 
     @{ Html.RenderPartial("_Alerts"); }
     @using (Html.BeginForm())
     {
         <div class="form-horizontal">
-            <h4>Update Your Details</h4>
             <hr />
 
             @Html.HiddenFor(model => model.CustomerID)
@@ -24,69 +24,50 @@
             @Html.HiddenFor(model => model.Email)
             @Html.HiddenFor(model => model.ContactNumber)
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.CustomerName)
-                </div>
-            </div>
+            <table class="BookingTable">
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-3" })
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(model => model.CustomerName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.CustomerSurname, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.CustomerSurname)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.IDNumber, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.IDNumber)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.City)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.CustomerAddress, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.CustomerAddress)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.ContactNumber, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.DisplayTextFor(model => model.ContactNumber)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.LoyaltyPoints, htmlAttributes: new { @class = "control-label col-md-3" })</td>
+                    <td>@Html.EditorFor(model => model.LoyaltyPoints, new { htmlAttributes = new { @class = "form-control", min = 0 } })</td>
+                </tr>
+            </table>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerSurname, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.CustomerSurname)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.IDNumber, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.IDNumber)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.City)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerAddress, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.CustomerAddress)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.PostalCode)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.Email)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ContactNumber, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.DisplayTextFor(model => model.ContactNumber)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.LoyaltyPoints, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.LoyaltyPoints, new { htmlAttributes = new { @class = "form-control",min=0 } })
-                </div>
-            </div>
-
+            
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Save" class="btn btn-primary" />
@@ -96,6 +77,6 @@
     }
 
     <div>
-        @Html.ActionLink("Back to List", "Index","Customer",null,null)
+        @Html.ActionLink("Back to List", "Index", "Customer", null, null)
     </div>
 </div>

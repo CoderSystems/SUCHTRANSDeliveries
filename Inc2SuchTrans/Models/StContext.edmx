@@ -95,6 +95,18 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Attendance No" />
+          </Key>
+          <Property Name="Attendance No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="DriverNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Check-In-Time" Type="datetime" Nullable="false" />
+          <Property Name="Check-Out-Time" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Breakdowns">
           <Key>
             <PropertyRef Name="BreakDownID" />
@@ -140,6 +152,9 @@
           <Property Name="ContactNumber" Type="varchar" MaxLength="255" />
           <Property Name="DateCreated" Type="datetime" />
           <Property Name="LastModified" Type="datetime" />
+          <Property Name="LoyaltyPoints" Type="int" />
+          <Property Name="LastBooking" Type="datetime" />
+          <Property Name="ExpDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -158,6 +173,7 @@
           <Property Name="Paid" Type="bit" />
           <Property Name="DeliveryRef" Type="varchar" MaxLength="256" />
           <Property Name="DeliveryStatus" Type="varchar" MaxLength="256" />
+          <Property Name="DiscountCost" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Deliveryjob">
           <Key>
@@ -195,6 +211,13 @@
           <Property Name="ErrorName" Type="varchar(max)" />
           <Property Name="ErrorDetails" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="E_Desc" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Fleet">
           <Key>
             <PropertyRef Name="TruckId" />
@@ -203,6 +226,13 @@
           <Property Name="TruckNumberPlate" Type="varchar" MaxLength="256" />
           <Property Name="Availability" Type="bit" />
           <Property Name="PriorityStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="Income">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="I_Desc" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="JobQueue">
           <Key>
@@ -225,6 +255,25 @@
           <Property Name="TotalCost" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ReferenceKey" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="TrackDelivery">
+          <Key>
+            <PropertyRef Name="TrackID" />
+          </Key>
+          <Property Name="TrackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
+        </EntityType>
+        <EntityType Name="TransactionTable">
+          <Key>
+            <PropertyRef Name="T_ID" />
+          </Key>
+          <Property Name="T_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="T_Date" Type="datetime" />
+          <Property Name="E_Code" Type="varchar" MaxLength="10" />
+          <Property Name="I_Code" Type="varchar" MaxLength="10" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="TruckDriver">
           <Key>
             <PropertyRef Name="DriverID" />
@@ -234,7 +283,19 @@
           <Property Name="Avail" Type="bit" />
           <Property Name="PriorityStatus" Type="bit" />
         </EntityType>
-        <Association Name="FK__Customer__UserID__276EDEB3">
+        <Association Name="FK__Attendanc__Check__656C112C">
+          <End Role="TruckDriver" Type="Self.TruckDriver" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDriver">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="DriverNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customer__UserID__45F365D3">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
@@ -246,7 +307,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Delivery__Custom__2A4B4B5E">
+        <Association Name="FK__Delivery__Custom__46E78A0C">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
           <ReferentialConstraint>
@@ -258,7 +319,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Delivery__Custom__2B3F6F97">
+        <Association Name="FK__Delivery__Custom__47DBAE45">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
           <ReferentialConstraint>
@@ -270,7 +331,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Deliveryj__DelID__36B12243">
+        <Association Name="FK__Deliveryj__DelID__48CFD27E">
           <End Role="Delivery" Type="Self.Delivery" Multiplicity="0..1" />
           <End Role="Deliveryjob" Type="Self.Deliveryjob" Multiplicity="*" />
           <ReferentialConstraint>
@@ -282,7 +343,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Deliveryj__Drive__37A5467C">
+        <Association Name="FK__Deliveryj__Drive__49C3F6B7">
           <End Role="TruckDriver" Type="Self.TruckDriver" Multiplicity="0..1" />
           <End Role="Deliveryjob" Type="Self.Deliveryjob" Multiplicity="*" />
           <ReferentialConstraint>
@@ -294,7 +355,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Deliveryj__Truck__38996AB5">
+        <Association Name="FK__Deliveryj__Truck__4AB81AF0">
           <End Role="Fleet" Type="Self.Fleet" Multiplicity="0..1" />
           <End Role="Deliveryjob" Type="Self.Deliveryjob" Multiplicity="*" />
           <ReferentialConstraint>
@@ -306,7 +367,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Employee__UserID__2E1BDC42">
+        <Association Name="FK__Employee__UserID__4BAC3F29">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -318,7 +379,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__JobQueue__JobID__3B75D760">
+        <Association Name="FK__JobQueue__JobID__4CA06362">
           <End Role="Deliveryjob" Type="Self.Deliveryjob" Multiplicity="0..1" />
           <End Role="JobQueue" Type="Self.JobQueue" Multiplicity="*" />
           <ReferentialConstraint>
@@ -330,7 +391,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TruckDriv__EmpID__33D4B598">
+        <Association Name="FK__TrackDeli__JobID__72C60C4A">
+          <End Role="Deliveryjob" Type="Self.Deliveryjob" Multiplicity="0..1" />
+          <End Role="TrackDelivery" Type="Self.TrackDelivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliveryjob">
+              <PropertyRef Name="JobID" />
+            </Principal>
+            <Dependent Role="TrackDelivery">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TruckDriv__EmpID__4D94879B">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="TruckDriver" Type="Self.TruckDriver" Multiplicity="*" />
           <ReferentialConstraint>
@@ -398,6 +471,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EX">
+          <End Role="Expense" Type="Self.Expense" Multiplicity="0..1" />
+          <End Role="TransactionTable" Type="Self.TransactionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expense">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="TransactionTable">
+              <PropertyRef Name="E_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IN">
+          <End Role="Income" Type="Self.Income" Multiplicity="0..1" />
+          <End Role="TransactionTable" Type="Self.TransactionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Income">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="TransactionTable">
+              <PropertyRef Name="I_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="STLogisticsModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ArchivedDeliveries" EntityType="Self.ArchivedDeliveries" Schema="dbo" store:Type="Tables" />
@@ -407,6 +504,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Breakdowns" EntityType="Self.Breakdowns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cargo" EntityType="Self.Cargo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
@@ -415,43 +513,55 @@
           <EntitySet Name="Deliveryjob" EntityType="Self.Deliveryjob" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Error" EntityType="Self.Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fleet" EntityType="Self.Fleet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Income" EntityType="Self.Income" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobQueue" EntityType="Self.JobQueue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackDelivery" EntityType="Self.TrackDelivery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionTable" EntityType="Self.TransactionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TruckDriver" EntityType="Self.TruckDriver" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Customer__UserID__276EDEB3" Association="Self.FK__Customer__UserID__276EDEB3">
+          <AssociationSet Name="FK__Attendanc__Check__656C112C" Association="Self.FK__Attendanc__Check__656C112C">
+            <End Role="TruckDriver" EntitySet="TruckDriver" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customer__UserID__45F365D3" Association="Self.FK__Customer__UserID__45F365D3">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
-          <AssociationSet Name="FK__Delivery__Custom__2A4B4B5E" Association="Self.FK__Delivery__Custom__2A4B4B5E">
+          <AssociationSet Name="FK__Delivery__Custom__46E78A0C" Association="Self.FK__Delivery__Custom__46E78A0C">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Delivery" EntitySet="Delivery" />
           </AssociationSet>
-          <AssociationSet Name="FK__Delivery__Custom__2B3F6F97" Association="Self.FK__Delivery__Custom__2B3F6F97">
+          <AssociationSet Name="FK__Delivery__Custom__47DBAE45" Association="Self.FK__Delivery__Custom__47DBAE45">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Delivery" EntitySet="Delivery" />
           </AssociationSet>
-          <AssociationSet Name="FK__Deliveryj__DelID__36B12243" Association="Self.FK__Deliveryj__DelID__36B12243">
+          <AssociationSet Name="FK__Deliveryj__DelID__48CFD27E" Association="Self.FK__Deliveryj__DelID__48CFD27E">
             <End Role="Delivery" EntitySet="Delivery" />
             <End Role="Deliveryjob" EntitySet="Deliveryjob" />
           </AssociationSet>
-          <AssociationSet Name="FK__Deliveryj__Drive__37A5467C" Association="Self.FK__Deliveryj__Drive__37A5467C">
+          <AssociationSet Name="FK__Deliveryj__Drive__49C3F6B7" Association="Self.FK__Deliveryj__Drive__49C3F6B7">
             <End Role="TruckDriver" EntitySet="TruckDriver" />
             <End Role="Deliveryjob" EntitySet="Deliveryjob" />
           </AssociationSet>
-          <AssociationSet Name="FK__Deliveryj__Truck__38996AB5" Association="Self.FK__Deliveryj__Truck__38996AB5">
+          <AssociationSet Name="FK__Deliveryj__Truck__4AB81AF0" Association="Self.FK__Deliveryj__Truck__4AB81AF0">
             <End Role="Fleet" EntitySet="Fleet" />
             <End Role="Deliveryjob" EntitySet="Deliveryjob" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__UserID__2E1BDC42" Association="Self.FK__Employee__UserID__2E1BDC42">
+          <AssociationSet Name="FK__Employee__UserID__4BAC3F29" Association="Self.FK__Employee__UserID__4BAC3F29">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__JobQueue__JobID__3B75D760" Association="Self.FK__JobQueue__JobID__3B75D760">
+          <AssociationSet Name="FK__JobQueue__JobID__4CA06362" Association="Self.FK__JobQueue__JobID__4CA06362">
             <End Role="Deliveryjob" EntitySet="Deliveryjob" />
             <End Role="JobQueue" EntitySet="JobQueue" />
           </AssociationSet>
-          <AssociationSet Name="FK__TruckDriv__EmpID__33D4B598" Association="Self.FK__TruckDriv__EmpID__33D4B598">
+          <AssociationSet Name="FK__TrackDeli__JobID__72C60C4A" Association="Self.FK__TrackDeli__JobID__72C60C4A">
+            <End Role="Deliveryjob" EntitySet="Deliveryjob" />
+            <End Role="TrackDelivery" EntitySet="TrackDelivery" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TruckDriv__EmpID__4D94879B" Association="Self.FK__TruckDriv__EmpID__4D94879B">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="TruckDriver" EntitySet="TruckDriver" />
           </AssociationSet>
@@ -470,6 +580,14 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EX" Association="Self.FK_EX">
+            <End Role="Expense" EntitySet="Expense" />
+            <End Role="TransactionTable" EntitySet="TransactionTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IN" Association="Self.FK_IN">
+            <End Role="Income" EntitySet="Income" />
+            <End Role="TransactionTable" EntitySet="TransactionTable" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -574,6 +692,9 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK__Customer__UserID__276EDEB3" FromRole="Customer" ToRole="AspNetUsers" />
           <NavigationProperty Name="Delivery" Relationship="Self.FK__Delivery__Custom__2A4B4B5E" FromRole="Customer" ToRole="Delivery" />
           <NavigationProperty Name="Delivery1" Relationship="Self.FK__Delivery__Custom__2B3F6F97" FromRole="Customer" ToRole="Delivery" />
+          <Property Name="LoyaltyPoints" Type="Int32" />
+          <Property Name="LastBooking" Type="DateTime" Precision="3" />
+          <Property Name="ExpDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -595,6 +716,7 @@
           <NavigationProperty Name="Deliveryjob" Relationship="Self.FK__Deliveryj__DelID__36B12243" FromRole="Delivery" ToRole="Deliveryjob" />
           <Property Name="DeliveryRef" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryStatus" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountCost" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Deliveryjob">
           <Key>
@@ -610,6 +732,7 @@
           <NavigationProperty Name="TruckDriver" Relationship="Self.FK__Deliveryj__Drive__37A5467C" FromRole="Deliveryjob" ToRole="TruckDriver" />
           <NavigationProperty Name="Fleet" Relationship="Self.FK__Deliveryj__Truck__38996AB5" FromRole="Deliveryjob" ToRole="Fleet" />
           <NavigationProperty Name="JobQueue" Relationship="Self.FK__JobQueue__JobID__3B75D760" FromRole="Deliveryjob" ToRole="JobQueue" />
+          <NavigationProperty Name="TrackDelivery" Relationship="STLogisticsModel.FK__TrackDeli__JobID__72C60C4A" FromRole="Deliveryjob" ToRole="TrackDelivery" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -672,6 +795,7 @@
           <Property Name="PriorityStatus" Type="Boolean" />
           <NavigationProperty Name="Deliveryjob" Relationship="Self.FK__Deliveryj__Drive__37A5467C" FromRole="TruckDriver" ToRole="Deliveryjob" />
           <NavigationProperty Name="Employee" Relationship="Self.FK__TruckDriv__EmpID__33D4B598" FromRole="TruckDriver" ToRole="Employee" />
+          <NavigationProperty Name="Attendance" Relationship="STLogisticsModel.FK__Attendanc__Check__656C112C" FromRole="TruckDriver" ToRole="Attendance" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -881,6 +1005,27 @@
           <EntitySet Name="Breakdowns" EntityType="STLogisticsModel.Breakdowns" />
           <EntitySet Name="ArchivedDeliveries" EntityType="STLogisticsModel.ArchivedDeliveries" />
           <EntitySet Name="Contact" EntityType="STLogisticsModel.Contact" />
+          <EntitySet Name="Attendance" EntityType="STLogisticsModel.Attendance" />
+          <EntitySet Name="Expense" EntityType="STLogisticsModel.Expense" />
+          <EntitySet Name="Income" EntityType="STLogisticsModel.Income" />
+          <EntitySet Name="TransactionTable" EntityType="STLogisticsModel.TransactionTable" />
+          <AssociationSet Name="FK__Attendanc__Check__656C112C" Association="STLogisticsModel.FK__Attendanc__Check__656C112C">
+            <End Role="TruckDriver" EntitySet="TruckDriver" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EX" Association="STLogisticsModel.FK_EX">
+            <End Role="Expense" EntitySet="Expense" />
+            <End Role="TransactionTable" EntitySet="TransactionTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IN" Association="STLogisticsModel.FK_IN">
+            <End Role="Income" EntitySet="Income" />
+            <End Role="TransactionTable" EntitySet="TransactionTable" />
+          </AssociationSet>
+          <EntitySet Name="TrackDelivery" EntityType="STLogisticsModel.TrackDelivery" />
+          <AssociationSet Name="FK__TrackDeli__JobID__72C60C4A" Association="STLogisticsModel.FK__TrackDeli__JobID__72C60C4A">
+            <End Role="Deliveryjob" EntitySet="Deliveryjob" />
+            <End Role="TrackDelivery" EntitySet="TrackDelivery" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Error">
           <Key>
@@ -930,6 +1075,105 @@
           <Property Name="Cell" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Attendance_No" />
+          </Key>
+          <Property Name="Attendance_No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DriverNumber" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Check_In_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Check_Out_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TruckDriver" Relationship="STLogisticsModel.FK__Attendanc__Check__656C112C" FromRole="Attendance" ToRole="TruckDriver" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="E_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TransactionTable" Relationship="STLogisticsModel.FK_EX" FromRole="Expense" ToRole="TransactionTable" />
+        </EntityType>
+        <EntityType Name="Income">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="I_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TransactionTable" Relationship="STLogisticsModel.FK_IN" FromRole="Income" ToRole="TransactionTable" />
+        </EntityType>
+        <EntityType Name="TransactionTable">
+          <Key>
+            <PropertyRef Name="T_ID" />
+          </Key>
+          <Property Name="T_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="T_Date" Type="DateTime" Precision="3" />
+          <Property Name="E_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="I_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Expense" Relationship="STLogisticsModel.FK_EX" FromRole="TransactionTable" ToRole="Expense" />
+          <NavigationProperty Name="Income" Relationship="STLogisticsModel.FK_IN" FromRole="TransactionTable" ToRole="Income" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Check__656C112C">
+          <End Type="STLogisticsModel.TruckDriver" Role="TruckDriver" Multiplicity="1" />
+          <End Type="STLogisticsModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDriver">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="DriverNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EX">
+          <End Type="STLogisticsModel.Expense" Role="Expense" Multiplicity="0..1" />
+          <End Type="STLogisticsModel.TransactionTable" Role="TransactionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expense">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="TransactionTable">
+              <PropertyRef Name="E_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IN">
+          <End Type="STLogisticsModel.Income" Role="Income" Multiplicity="0..1" />
+          <End Type="STLogisticsModel.TransactionTable" Role="TransactionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Income">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="TransactionTable">
+              <PropertyRef Name="I_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrackDelivery">
+          <Key>
+            <PropertyRef Name="TrackID" />
+          </Key>
+          <Property Name="TrackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
+          <NavigationProperty Name="Deliveryjob" Relationship="STLogisticsModel.FK__TrackDeli__JobID__72C60C4A" FromRole="TrackDelivery" ToRole="Deliveryjob" />
+        </EntityType>
+        <Association Name="FK__TrackDeli__JobID__72C60C4A">
+          <End Type="STLogisticsModel.Deliveryjob" Role="Deliveryjob" Multiplicity="0..1" />
+          <End Type="STLogisticsModel.TrackDelivery" Role="TrackDelivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliveryjob">
+              <PropertyRef Name="JobID" />
+            </Principal>
+            <Dependent Role="TrackDelivery">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1014,6 +1258,9 @@
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="STLogisticsModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="LastBooking" ColumnName="LastBooking" />
+                <ScalarProperty Name="LoyaltyPoints" ColumnName="LoyaltyPoints" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -1032,6 +1279,7 @@
           <EntitySetMapping Name="Delivery">
             <EntityTypeMapping TypeName="STLogisticsModel.Delivery">
               <MappingFragment StoreEntitySet="Delivery">
+                <ScalarProperty Name="DiscountCost" ColumnName="DiscountCost" />
                 <ScalarProperty Name="DeliveryStatus" ColumnName="DeliveryStatus" />
                 <ScalarProperty Name="DeliveryRef" ColumnName="DeliveryRef" />
                 <ScalarProperty Name="DelID" ColumnName="DelID" />
@@ -1178,6 +1426,56 @@
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
                 <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendance">
+            <EntityTypeMapping TypeName="STLogisticsModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="Check_Out_Time" ColumnName="Check-Out-Time" />
+                <ScalarProperty Name="Check_In_Time" ColumnName="Check-In-Time" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DriverNumber" ColumnName="DriverNumber" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Attendance_No" ColumnName="Attendance No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expense">
+            <EntityTypeMapping TypeName="STLogisticsModel.Expense">
+              <MappingFragment StoreEntitySet="Expense">
+                <ScalarProperty Name="E_Desc" ColumnName="E_Desc" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Income">
+            <EntityTypeMapping TypeName="STLogisticsModel.Income">
+              <MappingFragment StoreEntitySet="Income">
+                <ScalarProperty Name="I_Desc" ColumnName="I_Desc" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionTable">
+            <EntityTypeMapping TypeName="STLogisticsModel.TransactionTable">
+              <MappingFragment StoreEntitySet="TransactionTable">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="I_Code" ColumnName="I_Code" />
+                <ScalarProperty Name="E_Code" ColumnName="E_Code" />
+                <ScalarProperty Name="T_Date" ColumnName="T_Date" />
+                <ScalarProperty Name="T_ID" ColumnName="T_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackDelivery">
+            <EntityTypeMapping TypeName="STLogisticsModel.TrackDelivery">
+              <MappingFragment StoreEntitySet="TrackDelivery">
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="TrackID" ColumnName="TrackID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

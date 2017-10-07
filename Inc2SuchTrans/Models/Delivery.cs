@@ -11,7 +11,7 @@ namespace Inc2SuchTrans.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Delivery
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,11 +19,11 @@ namespace Inc2SuchTrans.Models
         {
             this.Deliveryjob = new HashSet<Deliveryjob>();
         }
-
+    
         public int DelID { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public Nullable<System.DateTime> CurrentDate { get; set; }
-        public System.DateTime DeliveryDate { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
         public string PickUpArea { get; set; }
         public string DropOffArea { get; set; }
         public string DropOffAdd { get; set; }
@@ -33,7 +33,8 @@ namespace Inc2SuchTrans.Models
         public Nullable<bool> Paid { get; set; }
         public string DeliveryRef { get; set; }
         public string DeliveryStatus { get; set; }
-
+        public Nullable<decimal> DiscountCost { get; set; }
+    
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

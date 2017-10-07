@@ -12,15 +12,13 @@ namespace Inc2SuchTrans.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TransactionTable
+    public partial class TrackDelivery
     {
-        public int T_ID { get; set; }
-        public Nullable<System.DateTime> T_Date { get; set; }
-        public string E_Code { get; set; }
-        public string I_Code { get; set; }
-        public Nullable<decimal> Amount { get; set; }
+        public int TrackID { get; set; }
+        public Nullable<int> JobID { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
     
-        public virtual Expense Expense { get; set; }
-        public virtual Income Income { get; set; }
+        public virtual Deliveryjob Deliveryjob { get; set; }
     }
 }

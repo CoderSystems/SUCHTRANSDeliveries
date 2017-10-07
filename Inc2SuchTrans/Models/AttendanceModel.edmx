@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="STAttendanceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Attendance No" />
+          </Key>
+          <Property Name="Attendance No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="DriverNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Check-In-Time" Type="datetime" Nullable="false" />
+          <Property Name="Check-Out-Time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TruckDriver">
+          <Key>
+            <PropertyRef Name="DriverID" />
+          </Key>
+          <Property Name="DriverID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="Avail" Type="bit" />
+          <Property Name="PriorityStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Check__145C0A3F">
+          <End Role="TruckDriver" Type="Self.TruckDriver" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDriver">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="DriverNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="STAttendanceModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TruckDriver" EntityType="Self.TruckDriver" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendanc__Check__145C0A3F" Association="Self.FK__Attendanc__Check__145C0A3F">
+            <End Role="TruckDriver" EntitySet="TruckDriver" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="STAttendanceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Attendance_No" />
+          </Key>
+          <Property Name="Attendance_No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DriverNumber" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Check_In_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Check_Out_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TruckDriver" Relationship="STAttendanceModel.FK__Attendanc__Check__145C0A3F" FromRole="Attendance" ToRole="TruckDriver" />
+        </EntityType>
+        <EntityContainer Name="STAttendanceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+          <EntitySet Name="TruckDrivers" EntityType="STAttendanceModel.TruckDriver" />
+          <AssociationSet Name="FK__Attendanc__Check__145C0A3F" Association="STAttendanceModel.FK__Attendanc__Check__145C0A3F">
+            <End Role="TruckDriver" EntitySet="TruckDrivers" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TruckDriver">
+          <Key>
+            <PropertyRef Name="DriverID" />
+          </Key>
+          <Property Name="DriverID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <Property Name="Avail" Type="Boolean" />
+          <Property Name="PriorityStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attendances" Relationship="STAttendanceModel.FK__Attendanc__Check__145C0A3F" FromRole="TruckDriver" ToRole="Attendance" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Check__145C0A3F">
+          <End Type="STAttendanceModel.TruckDriver" Role="TruckDriver" Multiplicity="1" />
+          <End Type="STAttendanceModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDriver">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="DriverNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="STAttendanceModelStoreContainer" CdmEntityContainer="STAttendanceEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="STAttendanceModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="Attendance_No" ColumnName="Attendance No" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DriverNumber" ColumnName="DriverNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Check_In_Time" ColumnName="Check-In-Time" />
+                <ScalarProperty Name="Check_Out_Time" ColumnName="Check-Out-Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TruckDrivers">
+            <EntityTypeMapping TypeName="STAttendanceModel.TruckDriver">
+              <MappingFragment StoreEntitySet="TruckDriver">
+                <ScalarProperty Name="PriorityStatus" ColumnName="PriorityStatus" />
+                <ScalarProperty Name="Avail" ColumnName="Avail" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
