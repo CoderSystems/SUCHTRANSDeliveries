@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Inc2SuchTrans.Models;
 
 namespace Inc2SuchTrans.Controllers
 {
     public class RatingController : Controller
     {
         // GET: Rating
+        STLogisticsEntities db = new STLogisticsEntities();
         public ActionResult rateNow()
         {
+            ViewBag.SecID = User.Identity.Name;
             ViewBag.Message = "rate";
 
             return View();
@@ -26,34 +29,35 @@ namespace Inc2SuchTrans.Controllers
 
 
 
-        public JsonResult SendRating(string r, string s, string id, string url)
+        public ActionResult SendRating(string r, string s, string id, string url)
         {
-            int autoId = 0;
-            Int16 thisVote = 0;
-            Int16 sectionId = 0;
-            Int16.TryParse(s, out sectionId);
-            Int16.TryParse(r, out thisVote);
-            int.TryParse(id, out autoId);
+            return RedirectToAction("Index", "Home");
+            //int autoId = 0;
+            //Int16 thisVote = 0;
+            //Int16 sectionId = 0;
+            //Int16.TryParse(s, out sectionId);
+            //Int16.TryParse(r, out thisVote);
+            //int.TryParse(id, out autoId);
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Json("Not authenticated!");
-            }
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    return Json("Not authenticated!");
+            //}
 
-            if (autoId.Equals(0))
-            {
-                return Json("Sorry, record to vote doesn't exists");
-            }
+            //if (autoId.Equals(0))
+            //{
+            //    return Json("Sorry, record to vote doesn't exists");
+            //}
 
             //switch (s)
             //{
-            //    case "5": 
+            //    case "5":
             //        // check if he has already voted
             //        var isIt = db.VoteModels.Where(v => v.SectionId == sectionId &&
             //            v.UserName.Equals(User.Identity.Name, StringComparison.CurrentCultureIgnoreCase) && v.VoteForId == autoId).FirstOrDefault();
             //        if (isIt != null)
             //        {
-            //            
+
             //            HttpCookie cookie = new HttpCookie(url, "true");
             //            Response.Cookies.Add(cookie);
             //            return Json("<br />You have already rated this post, thanks !");
@@ -116,7 +120,7 @@ namespace Inc2SuchTrans.Controllers
 
             //            db.SaveChanges();
 
-            //            
+
             //            HttpCookie cookie = new HttpCookie(url, "true");
             //            Response.Cookies.Add(cookie);
             //        }
@@ -124,7 +128,7 @@ namespace Inc2SuchTrans.Controllers
             //    default:
             //        break;
             //}
-            return Json("<br />You rated " + r + " star(s), thanks !");
+            //return Json("<br />You rated " + r + " star(s), thanks !");
         }
     }
 }

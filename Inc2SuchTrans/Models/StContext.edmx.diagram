@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="99dbd806187d45e7b5483eac72dcce13" Name="Diagram1" ZoomLevel="95">
+      <Diagram DiagramId="99dbd806187d45e7b5483eac72dcce13" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="STLogisticsModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="STLogisticsModel.AreaRates" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="STLogisticsModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />

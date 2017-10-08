@@ -17,34 +17,34 @@
 {
     <table id="ratingTable" style="width:100%;">
         <tr>
-            <td id="div1" onmouseover="over()" onmouseout="out()">
+            <td id="div1" onmouseover="over()" onmouseout="out()" onclick="starclick()">
         @*<div id="div1" onmouseover="over()" onmouseout="out()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="1" onclick="return SetRating(this)" /><br/>bad
+            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="1" onclick="SetRating(this)" /><br/>bad
 
 
         @*</div>*@
             </td>
-            <td id="div2" onmouseover="over2()" onmouseout="out()">
+            <td id="div2" onmouseover="over2()" onmouseout="out()" onclick="starclick()">
                 @*<div id="div2" onmouseover="over2()" onmouseout="out2()">*@
-                    <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="2" onclick="return SetRating(this)" /><br />poor
+                    <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="2" onclick="SetRating(this)" /><br />poor
 
                 @*</div>*@
             </td>
-            <td id="div3" onmouseover="over3()" onmouseout="out()">
+            <td id="div3" onmouseover="over3()" onmouseout="out()" onclick="starclick()">
         @*<div id="div3" onmouseover="over3()" onmouseout="out3()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="3" onclick="return SetRating(this)" /><br />satisfactory
+            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="3" onclick="SetRating(this)" /><br />satisfactory
 
         @*</div>*@
             </td>
-            <td id="div4" onmouseover="over4()" onmouseout="out()">
+            <td id="div4" onmouseover="over4()" onmouseout="out()" onclick="starclick()">
         @*<div id="div4" onmouseover="over4()" onmouseout="out4()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="4" onclick="return SetRating(this)"/><br />good
+            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="4" onclick="SetRating(this)"/><br />good
 
         @*</div>*@
             </td>
-            <td id="div5" onmouseover="over5()" onmouseout="out()">
+            <td id="div5" onmouseover="over5()" onmouseout="out()" onclick="starclick()">
         @*<div id="div5" onmouseover="over5()" onmouseout="out5()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="5" onclick="return SetRating(this)"/><br />excellent
+            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="5" onclick="SetRating(this)"/><br />excellent
 
         @*</div>*@
             </td>
@@ -79,6 +79,28 @@
    @section Scripts{
 
     <script>
+
+        function starclick()
+        {
+            var msg;
+            $.ajax({
+                type: "POST",
+                url: "Rating/SendRating",
+                contentType: "application/json;",
+                //data: JSON.stringify({})
+                success: function(valid)
+                {
+                    if(valid)
+                    {
+                        msg = "valid vote";
+                    }
+                    else
+                    {
+                        msg = "invalid vote";
+                    }
+                }
+            })
+        }
 
         function process(event)
         {
@@ -137,7 +159,7 @@
             var image = "<img src='~/Content/images/yellowstar.png' />";
 
 
-            document.getElementById("div1").innerHTML = "<img src='~/Content/images/yellowstar.png' alt=''  data-value='1' onclick='return SetRating(this)' /><br/>Bad";
+            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
 
             document.getElementById(ratingStar).innerHTML = image;
         }
@@ -145,8 +167,8 @@
         function over2(ratingStar) {
             var image = "<img src='~/Content/images/yellowstar.png' />";
 
-            document.getElementById("div1").innerHTML = "<img src='~/Content/images/yellowstar.png' alt=''  data-value='1' onclick='return SetRating(this)' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='~/Content/images/yellowstar.png' alt=''  data-value='2' onclick='return SetRating(this)' /><br/>Poor";
+            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
+            document.getElementById("div2").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Poor";
 
             document.getElementById(ratingStar).innerHTML = image;
         }
@@ -206,27 +228,41 @@
             }
         }
 
+        //var clickedFlag = false;
+        //var starRating = 0;
+
+        @*function SetRating(a) {
+            clickedFlag = true;
+            debugger;
+            $(".ratingStar").unbind("out over1 over2 over3 over4 over5 click").css("cursor", "default");
+            starRating = a;
+            var url = "/Rating/SendRating?r=" + starRating + "&s=5&id=@Model&url=@url";
+            $.post(url, null, function (data) {
+                $("#lblResult").html(data);
+                document.getElementById("#lblResult").innerText = element.data - value;
+            });*@
+
+            //function Switch(on, img) {
+
+            //    if (on == 1) {
+            //        img.src = "~/Content/images/yellowstar.png";
+            //    }
+            //    else
+            //        img.src = "~/Content/images/whitestar.png";
+            //}
 
 
-            function Switch(on, img) {
 
-                if (on == 1) {
-                    img.src = "~/Content/images/yellowstar.png";
-                }
-                else
-                    img.src = "~/Content/images/whitestar.png";
-            }
-
-
-            
 
 
 
     </script>
 
+       }
+    }
+}
 
-
-    <script type="text/javascript">
+    @*<script type="text/javascript">
             var clickedFlag = false;
             var starRating = 0;
 
@@ -250,6 +286,7 @@
 
             function SetRating(element) {
                 clickedFlag = true;
+                debugger;
                 $(".ratingStar").unbind("out over1 over2 over3 over4 over5 click").css("cursor", "default");
                 starRating = element.data-value;
                 var url = "/Home/SendRating?r=" +starRating + "&s=5&id=@Model&url=@url";
@@ -269,12 +306,12 @@
                 $("#lblResult").html("<br />Error occured.");
             });
         </script>
-}
-}
+}*@
 
-else
+
+@*@else
 {
     <text><span style="color:green;">Thanks for your vote !</span></text>
 }
-
+}*@
 
