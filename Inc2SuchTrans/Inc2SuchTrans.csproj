@@ -324,6 +324,9 @@
     <Compile Include="Models\Income.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IncompleteDeliveries.cs">
+      <DependentUpon>StContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobQueue.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
@@ -332,6 +335,12 @@
     <Compile Include="Models\MetaData.cs" />
     <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Models\Quote.cs">
+      <DependentUpon>StContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rating.cs">
+      <DependentUpon>StContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RatingSummary.cs">
       <DependentUpon>StContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StContext.Context.cs">
@@ -720,6 +729,8 @@
     <Content Include="Views\lats\Create.cshtml" />
     <Content Include="Views\lats\Edit.cshtml" />
     <Content Include="Views\lats\Delete.cshtml" />
+    <Content Include="Views\Rating\Index.cshtml" />
+    <Content Include="Views\Rating\Thanks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -80,7 +80,7 @@ namespace Inc2SuchTrans.Controllers
                     cLogic.updateDetails(cust);
                 }
                 Success("Successfully Updated Details!");
-                return RedirectToAction("Details", new { id = cust.CustomerID });
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {

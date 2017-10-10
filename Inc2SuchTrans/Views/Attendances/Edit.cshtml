@@ -2,9 +2,10 @@
 
 @{
     ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2 class="EveryHeader">Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -13,54 +14,46 @@
 
     <div class="form-horizontal">
         <h4>Attendance</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.AttendanceID)
+        <div class="FilterDivAdmin">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Attendance_No)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AttendanceDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AttendanceDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AttendanceDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <table class="BookingTable">
+                <tr>
+                    <td>@Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Check_In_Time, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>@Html.EditorFor(model => model.Check_In_Time, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Check_In_Time, "", new { @class = "text-danger" })</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Check_Out_Time, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>@Html.EditorFor(model => model.Check_Out_Time, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Check_Out_Time, "", new { @class = "text-danger" })</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.DriverNumber, "DriverID", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>@Html.DropDownList("DriverID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DriverNumber, "", new { @class = "text-danger" })</td>
+                </tr>
+            </table>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CheckInTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CheckInTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CheckInTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CheckOutTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CheckOutTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CheckOutTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DriverID, "DriverID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("DriverID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DriverID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
     </div>
-}
+        }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

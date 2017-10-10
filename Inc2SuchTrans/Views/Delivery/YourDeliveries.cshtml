@@ -68,6 +68,9 @@
                     @Html.DisplayNameFor(model => model.TotalCost)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.DiscountCost)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Paid)
                 </th>
                 <th>
@@ -104,6 +107,9 @@
                         </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiscountCost)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Paid)

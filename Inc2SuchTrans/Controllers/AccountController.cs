@@ -185,9 +185,10 @@ namespace Inc2SuchTrans.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                        ViewBag.UserName = User.Identity.GetUserName();
+                        ViewBag.UserName = user.Email;
                         Customer cust = new Customer();
-                        cust.Email = User.Identity.GetUserName();
+                        cust.UserID = user.Id;
+                        cust.Email = user.Email;
                         return RedirectToAction("AdditionalInformation", cust);
                     }
                     AddErrors(result);
@@ -206,24 +207,23 @@ namespace Inc2SuchTrans.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult AdditionalInformation()
-        {
-
-            return View();
-        }
         [HttpGet]
         public ActionResult AdditionalInformation(Customer cust)
         {
-            return View(cust);
+            
+                return View(cust);
+            
         }
 
 
         [HttpPost]
         public ActionResult AdditionalInformation(string userId, string CustomerName, string CustomerSurname, string IDNumber, string City, string CustomerAddress, string PostalCode, string ContactNumber)
         {
-            Customer cust = new Customer();
+            
             try
             {
+               
+        Customer cust = new Customer();
                 if (ModelState.IsValid)
                 {
                     cust.UserID = userId;
@@ -237,7 +237,8 @@ namespace Inc2SuchTrans.Controllers
                     cust.ContactNumber = ContactNumber;
                     cust.DateCreated = System.DateTime.Now;
                     cust.LastModified = System.DateTime.Now;
-
+                    cust.ExpDate = null;
+                    cust.LoyaltyPoints = null;
                     logic.addCustomer(cust);
                 }
                 return RedirectToAction("Index", "Home");

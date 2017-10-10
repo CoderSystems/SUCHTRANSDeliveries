@@ -234,6 +234,15 @@
           <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="I_Desc" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="IncompleteDeliveries">
+          <Key>
+            <PropertyRef Name="IncompleteID" />
+          </Key>
+          <Property Name="IncompleteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceKey" Type="varchar" MaxLength="256" />
+          <Property Name="Reason" Type="varchar" MaxLength="256" />
+          <Property Name="Comments" Type="varchar" MaxLength="256" />
+        </EntityType>
         <EntityType Name="JobQueue">
           <Key>
             <PropertyRef Name="queueId" />
@@ -254,6 +263,22 @@
           <Property Name="CargoWeight" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalCost" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ReferenceKey" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="rateId" />
+          </Key>
+          <Property Name="rateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RatingSummary">
+          <Key>
+            <PropertyRef Name="autoID" />
+          </Key>
+          <Property Name="autoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumOfRates" Type="int" Nullable="false" />
+          <Property Name="TotalStars" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TrackDelivery">
           <Key>
@@ -516,8 +541,11 @@
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fleet" EntityType="Self.Fleet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Income" EntityType="Self.Income" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncompleteDeliveries" EntityType="Self.IncompleteDeliveries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobQueue" EntityType="Self.JobQueue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RatingSummary" EntityType="Self.RatingSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackDelivery" EntityType="Self.TrackDelivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionTable" EntityType="Self.TransactionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TruckDriver" EntityType="Self.TruckDriver" Schema="dbo" store:Type="Tables" />
@@ -1026,6 +1054,9 @@
             <End Role="Deliveryjob" EntitySet="Deliveryjob" />
             <End Role="TrackDelivery" EntitySet="TrackDelivery" />
           </AssociationSet>
+          <EntitySet Name="IncompleteDeliveries" EntityType="STLogisticsModel.IncompleteDeliveries" />
+          <EntitySet Name="Rating" EntityType="STLogisticsModel.Rating" />
+          <EntitySet Name="RatingSummary" EntityType="STLogisticsModel.RatingSummary" />
         </EntityContainer>
         <EntityType Name="Error">
           <Key>
@@ -1174,6 +1205,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="IncompleteDeliveries">
+          <Key>
+            <PropertyRef Name="IncompleteID" />
+          </Key>
+          <Property Name="IncompleteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceKey" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="rateId" />
+          </Key>
+          <Property Name="rateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Rating1" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RatingSummary">
+          <Key>
+            <PropertyRef Name="autoID" />
+          </Key>
+          <Property Name="NumOfRates" Type="Int32" Nullable="false" />
+          <Property Name="TotalStars" Type="Int32" Nullable="false" />
+          <Property Name="autoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1476,6 +1532,34 @@
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />
                 <ScalarProperty Name="TrackID" ColumnName="TrackID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncompleteDeliveries">
+            <EntityTypeMapping TypeName="STLogisticsModel.IncompleteDeliveries">
+              <MappingFragment StoreEntitySet="IncompleteDeliveries">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="ReferenceKey" ColumnName="ReferenceKey" />
+                <ScalarProperty Name="IncompleteID" ColumnName="IncompleteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rating">
+            <EntityTypeMapping TypeName="STLogisticsModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Rating1" ColumnName="Rating" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="rateId" ColumnName="rateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RatingSummary">
+            <EntityTypeMapping TypeName="STLogisticsModel.RatingSummary">
+              <MappingFragment StoreEntitySet="RatingSummary">
+                <ScalarProperty Name="autoID" ColumnName="autoID" />
+                <ScalarProperty Name="TotalStars" ColumnName="TotalStars" />
+                <ScalarProperty Name="NumOfRates" ColumnName="NumOfRates" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

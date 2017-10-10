@@ -45,6 +45,9 @@
         <AssociationConnector Association="STLogisticsModel.FK_IN" />
         <EntityTypeShape EntityType="STLogisticsModel.TrackDelivery" Width="1.5" PointX="12" PointY="19.75" />
         <AssociationConnector Association="STLogisticsModel.FK__TrackDeli__JobID__72C60C4A" />
+        <EntityTypeShape EntityType="STLogisticsModel.IncompleteDeliveries" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="STLogisticsModel.Rating" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="STLogisticsModel.RatingSummary" Width="1.5" PointX="14.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

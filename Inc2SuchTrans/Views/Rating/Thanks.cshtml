@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Thanks";
+
+}
+
+<h1 class="EveryHeader" style="color:black">Thank you!</h1>
+<br />
+<div class="FilterDiv">
+    <h4> Thank you for the @ViewBag.RatingAmount star rating</h4>
+    <h4>If you have any comments please feel free to contact us or leave us a comment on our Discussions Page</h4>
+
+    <br />
+    
+    <br />
+    <a href="@Url.Action("Index","Home")">
+        <img src="@Url.Content("~/images/back.png")" alt="Back" title="Back" width="40" height="40" />
+    </a>
+</div>

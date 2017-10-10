@@ -19,7 +19,14 @@ namespace Inc2SuchTrans.BLL
             db.Customer.Add(customer);
             db.SaveChanges();
         }
-
+        public string RandomString(int length)
+        {
+            Random random = new Random();
+            const string pool = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var chars = Enumerable.Range(0, length)
+                .Select(x => pool[random.Next(0, pool.Length)]);
+            return new string(chars.ToArray());
+        }
 
         public List<Customer> returnAllCustomers()
         {

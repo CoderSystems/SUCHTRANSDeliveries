@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Inc2SuchTrans.Models;
+using Inc2SuchTrans.CustomFilters;
 
 namespace Inc2SuchTrans.Controllers
 {
@@ -11,10 +12,39 @@ namespace Inc2SuchTrans.Controllers
     {
         // GET: Rating
         STLogisticsEntities db = new STLogisticsEntities();
+        public ActionResult Index()
+        {
+            Customer c = db.Customer.First();
+            return View(c);
+        }
+        [AuthLog(Roles = "Customer")]
         public ActionResult rateNow()
         {
-            ViewBag.SecID = User.Identity.Name;
-            ViewBag.Message = "rate";
+            
+            RatingSummary summ = db.RatingSummary.First();
+            int numCus = 0;
+            int Numstars = 0;
+
+            numCus = summ.NumOfRates;
+            Numstars = summ.TotalStars;
+            double avg = 0;
+            
+
+            if(numCus == 0)
+            {
+                avg = 0;
+            }
+            else
+            {
+                avg = Numstars / numCus;
+            }
+            ViewBag.cus = "Total Ratings Submitted: " + numCus;
+            ViewBag.star = "Total Stars Recieved: " + Numstars;
+            ViewBag.avg = "Average Star Rating: " + avg;
+
+
+
+            ViewBag.Message = "Create";
 
             return View();
         }
@@ -130,5 +160,20 @@ namespace Inc2SuchTrans.Controllers
             //}
             //return Json("<br />You rated " + r + " star(s), thanks !");
         }
+        public ActionResult Thanks(int stars)
+        {
+            RatingSummary summ = db.RatingSummary.First();
+                       
+            summ.NumOfRates += 1;
+            summ.TotalStars += stars;
+
+            db.SaveChanges();
+
+            ViewBag.Message = "your thanks page";
+            ViewBag.RatingAmount = stars.ToString();
+
+            return View();
+        }
+        
     }
 }

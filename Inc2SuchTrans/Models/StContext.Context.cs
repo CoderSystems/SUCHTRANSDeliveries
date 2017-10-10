@@ -49,5 +49,8 @@ namespace Inc2SuchTrans.Models
         public virtual DbSet<Income> Income { get; set; }
         public virtual DbSet<TransactionTable> TransactionTable { get; set; }
         public virtual DbSet<TrackDelivery> TrackDelivery { get; set; }
+        public virtual DbSet<IncompleteDeliveries> IncompleteDeliveries { get; set; }
+        public virtual DbSet<Rating> Rating { get; set; }
+        public virtual DbSet<RatingSummary> RatingSummary { get; set; }
     }
 }

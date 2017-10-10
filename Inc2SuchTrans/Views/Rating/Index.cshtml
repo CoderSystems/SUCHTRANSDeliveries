@@ -1,0 +1,12 @@
+﻿@model Inc2SuchTrans.Models.Customer
+@{
+    ViewBag.Title = "Details";
+    string fb = "http://localhost:3156/Rating/Index" + Model.UserID;
+}
+<html>
+    <body>
+        <div class="FilterDiv" style="background-color:aliceblue; border:2px solid black">
+            <div class="fb-comments" data-href="@fb" data-numposts="5"></div>
+        </div>
+    </body>
+</html>

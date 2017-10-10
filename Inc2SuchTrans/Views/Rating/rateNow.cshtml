@@ -1,317 +1,66 @@
-﻿
+﻿@model Inc2SuchTrans.Models.RatingSummary
+
 @{
-    ViewBag.Title = "rateNow";
+    ViewBag.Title = "Create";
+
 }
 
-<h2> Please Rate Our Services </h2>
-@model string
-@{
-    var url = Request.Url.AbsolutePath;
-}
-@if (!User.Identity.IsAuthenticated)
+
+
+@using (Html.BeginForm())
 {
-    <text>Please <a href="/Account/Login?ReturnUrl=@Request.Url.AbsolutePath" title="Login to rate">Login</a> to rate</text>
-    return;
-}
-@if (Request.Cookies[url] == null)
-{
-    <table id="ratingTable" style="width:100%;">
-        <tr>
-            <td id="div1" onmouseover="over()" onmouseout="out()" onclick="starclick()">
-        @*<div id="div1" onmouseover="over()" onmouseout="out()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="1" onclick="SetRating(this)" /><br/>bad
-
-
-        @*</div>*@
-            </td>
-            <td id="div2" onmouseover="over2()" onmouseout="out()" onclick="starclick()">
-                @*<div id="div2" onmouseover="over2()" onmouseout="out2()">*@
-                    <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="2" onclick="SetRating(this)" /><br />poor
-
-                @*</div>*@
-            </td>
-            <td id="div3" onmouseover="over3()" onmouseout="out()" onclick="starclick()">
-        @*<div id="div3" onmouseover="over3()" onmouseout="out3()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="3" onclick="SetRating(this)" /><br />satisfactory
-
-        @*</div>*@
-            </td>
-            <td id="div4" onmouseover="over4()" onmouseout="out()" onclick="starclick()">
-        @*<div id="div4" onmouseover="over4()" onmouseout="out4()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="4" onclick="SetRating(this)"/><br />good
-
-        @*</div>*@
-            </td>
-            <td id="div5" onmouseover="over5()" onmouseout="out()" onclick="starclick()">
-        @*<div id="div5" onmouseover="over5()" onmouseout="out5()">*@
-            <img src="~/Content/images/whitestar.png" alt="" class="ratingStar" data-value="5" onclick="SetRating(this)"/><br />excellent
-
-        @*</div>*@
-            </td>
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h2 class="EveryHeader" style="color:black">Rate our Services!</h2>
+        <div class="FilterDiv">
             
-        </tr>
-    </table>
-    <div id="ratingDiv" class="smallText">
-        <br />
-        <br />
-        <br />
-
-        <h4>OPTIONAL!!!!</h4>
-        Didn't Like Our Services Or Found It Amazing, Please Leave A Comment Below <br />
-        <input type="radio" name="display" value="show" checked="checked" onclick="Leavecomment()" />Leave A Comment<br />
-        <input type="radio" name="display" value="hide" onclick="comment()" />Everything Was Fine, No Need For Comment<br />
-        <textarea name="textarea" id="ta" cols="66" rows="8" style="resize:none"></textarea>
+            
 
 
-        <h2><span id="span">Thanks For Using Our Services!</span></h2>
-        <label id="lblResult"></label>
+
+
+            <div class="form-group">
+                <div>
+                    <form action="" method="post">
+                        <h4>Click on the icon which you would like to rate us.</h4>
+                        <br />
+                        <h4>1 Star = Poor</h4>
+                        <h4>2 Stars = Bad</h4>
+                        <h4>3 Stars = Satisfactory</h4>
+                        <h4>4 Stars = Good</h4>
+                        <h4>5 Stars = Excellent</h4>
+                        <br />
+                        <a href="@Url.Action("Thanks","Rating", new { stars = 1 })" id="1"><img src="~/Content/Images/yellowstar.png" width="80" height="80" /></a> @*<button title="Poor" name="one" value="one" ><img src="~/Content/Images/1Star.jpg" width="80" height="80" /></button>*@
+                        <a href="@Url.Action("Thanks","Rating", new { stars = 2 })" id="2"><img src="~/Content/Images/yellowstar.png" width="80" height="80" /></a>@*<button title="Bad" name="two" value="two"><img src="~/Content/Images/2Star.png" width="80" height="80"/></button>*@
+                        <a href="@Url.Action("Thanks","Rating", new { stars = 3 })" id="1"><img src="~/Content/Images/yellowstar.png" width="80" height="80" /></a> @*<button title="Satisfactory" name="three" value="three"><img src="~/Content/Images/3Star.png" width="80" height="80" /></button>*@
+                        <a href="@Url.Action("Thanks","Rating", new { stars = 4 })" id="1"><img src="~/Content/Images/yellowstar.png" width="80" height="80" /></a> @*<button title="Good" name="four" value="four"><img src="~/Content/Images/4Star.png" width="80" height="80" /></button>*@
+                        <a href="@Url.Action("Thanks","Rating", new { stars = 5 })" id="1"><img src="~/Content/Images/yellowstar.png" width="80" height="80" /></a>  @*<button title="Excellent" name="five" value="five"><img src="~/Content/Images/5Star.png" width="80" height="80" /></button>*@
+                        <p>@ViewBag.cus</p><p>@ViewBag.star</p><p>@ViewBag.avg</p>
+            
+            
+            
+            
+
+
+
+
+
+                    </form>
+
+
+                </div>
+            </div>
+            <div>
+                <a href="@Url.Action("Index","Home")">
+                    <img src="@Url.Content("~/images/back.png")" alt="Back" title="Back" width="40" height="40" />
+                </a>
+            </div>
+        </div>
     </div>
-    <style type="text/css">
-        .ratingStar {
-            cursor: pointer;
-            width: 9%;
-            height: 9%;
-        }
-        
-    </style>
-
-    <input type="button" name="but" value="Submit" onmouseup="process(event)" />
-   @section Scripts{
-
-    <script>
-
-        function starclick()
-        {
-            var msg;
-            $.ajax({
-                type: "POST",
-                url: "Rating/SendRating",
-                contentType: "application/json;",
-                //data: JSON.stringify({})
-                success: function(valid)
-                {
-                    if(valid)
-                    {
-                        msg = "valid vote";
-                    }
-                    else
-                    {
-                        msg = "invalid vote";
-                    }
-                }
-            })
-        }
-
-        function process(event)
-        {
-            var pro;
-
-            if(event.which)
-            {
-                switch (event.which)
-                {
-                    case 1:
-                        pro = "Thanks for Rating Us !!";
-                        break;
-                    case 3:
-                        pro = "Rating Was Submitted !!";
-                        break;
-                }
-
-            }
-            else
-            {
-                switch(event.button)
-                {
-                    case 1:
-                        pro = "Thanks for Rating Us !!!";
-                        break;
-                    case 2:
-                        pro = "Rating Was Submitted !!";
-                        break;
-
-                }
-            }
-
-            alert(pro);
-        }
-
-
-        document.oncontextmenu = prevent;
-
-        function prevent(event)
-        {
-            event = event || window.event;
-
-
-            if(event.preventDefault)
-            {
-                event.preventDefault();
-            }
-            else {
-                event.returnValue = false;
-            }
-        }
-
-
-        function over(ratingStar)
-        {
-            var image = "<img src='~/Content/images/yellowstar.png' />";
-
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
-
-            document.getElementById(ratingStar).innerHTML = image;
-        }
-
-        function over2(ratingStar) {
-            var image = "<img src='~/Content/images/yellowstar.png' />";
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Poor";
-
-            document.getElementById(ratingStar).innerHTML = image;
-        }
-
-        function over3(ratingStar) {
-            var image = "<img src='~/Content/images/yellowstar.png' />";
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Poor";
-            document.getElementById("div3").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Satisfactory";
-
-            document.getElementById(ratingStar).innerHTML = image;
-        }
-
-        function over4(ratingStar) {
-            var image = "<img src='~/Content/images/yellowstar.png' />";
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Poor";
-            document.getElementById("div3").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Satisfactory";
-            document.getElementById("div4").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Good";
-
-            document.getElementById(ratingStar).innerHTML = image;
-        }
-
-        function over5(ratingStar) {
-            var image = "<img src='~/Content/images/yellowstar.png' />";
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Poor";
-            document.getElementById("div3").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Satisfactory";
-            document.getElementById("div4").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Good";
-            document.getElementById("div5").innerHTML = "<img src='/Content/images/yellowstar.png' /><br/>Excellent";
-
-            document.getElementById(ratingStar).innerHTML = image;
-        }
-
-
-
-
-        function out() {
-
-            document.getElementById("div1").innerHTML = "<img src='/Content/images/whitestar.png' /><br/>Bad";
-            document.getElementById("div2").innerHTML = "<img src='/Content/images/whitestar.png' /><br/>Poor";
-            document.getElementById("div3").innerHTML = "<img src='/Content/images/whitestar.png' /><br/>Satisfactory";
-            document.getElementById("div4").innerHTML = "<img src='/Content/images/whitestar.png' /><br/>Good";
-            document.getElementById("div5").innerHTML = "<img src='/Content/images/whitestar.png' /><br/>Excellent";
-          }
-
-
-        function Leavecomment() {
-            if (document.forms[0].display[0].checked) {
-                document.getElementById("ta").style.display = "";
-            }
-            else {
-                document.getElementById("span").style.display = "";
-            }
-        }
-
-        //var clickedFlag = false;
-        //var starRating = 0;
-
-        @*function SetRating(a) {
-            clickedFlag = true;
-            debugger;
-            $(".ratingStar").unbind("out over1 over2 over3 over4 over5 click").css("cursor", "default");
-            starRating = a;
-            var url = "/Rating/SendRating?r=" + starRating + "&s=5&id=@Model&url=@url";
-            $.post(url, null, function (data) {
-                $("#lblResult").html(data);
-                document.getElementById("#lblResult").innerText = element.data - value;
-            });*@
-
-            //function Switch(on, img) {
-
-            //    if (on == 1) {
-            //        img.src = "~/Content/images/yellowstar.png";
-            //    }
-            //    else
-            //        img.src = "~/Content/images/whitestar.png";
-            //}
-
-
-
-
-
-
-    </script>
-
-       }
-    }
 }
 
-    @*<script type="text/javascript">
-            var clickedFlag = false;
-            var starRating = 0;
-
-            //$(".ratingStar").mouseover(function () {
-            //    $(this).attr("src", "~/Content/images/yellowstar.png").prevAll("img.ratingStar").attr("src", "~/Content/images/yellowstar.png");
-            //});
 
 
-            //$(".ratingStar, #radingDiv").mouseout(function () {
-            //    $(this).attr("src", "~/Content/images/whitestar.png");
-            //});
 
-
-            //$("#ratingDiv").mouseout(function () {
-            //    if (!clickedFlag)
-            //    {
-            //        $(".ratingStar").attr("src", "~/Content/images/whitestar.png");
-            //    }
-            //});
-
-
-            function SetRating(element) {
-                clickedFlag = true;
-                debugger;
-                $(".ratingStar").unbind("out over1 over2 over3 over4 over5 click").css("cursor", "default");
-                starRating = element.data-value;
-                var url = "/Home/SendRating?r=" +starRating + "&s=5&id=@Model&url=@url";
-                $.post(url, null, function (data) {
-                    $("#lblResult").html(data);
-                    document.getElementById("#lblResult").innerText = element.data-value;
-                });
-            };
-
-
-            $("#lblResult").ajaxStart(function () {
-                $("#lblResult").html("Processing ....");
-            });
-
-
-            $("#lblResult").ajaxError(function () {
-                $("#lblResult").html("<br />Error occured.");
-            });
-        </script>
-}*@
-
-
-@*@else
-{
-    <text><span style="color:green;">Thanks for your vote !</span></text>
-}
-}*@
 

@@ -166,7 +166,9 @@ namespace Inc2SuchTrans.Controllers
         [HttpPost]
         public ActionResult CreateFromQuote(string userId, string DeliveryDate, string PickUpArea, string DropOffArea, string DropOffAdd, string CargoSize, string CargoWeight, int QuoteID)
         {
-            if(String.IsNullOrEmpty(userId))
+            var CurrentCustomer = HttpContext.User.Identity.Name;
+            var CustT = db.Customer.ToList().Find(x => x.Email == CurrentCustomer);
+            if (String.IsNullOrEmpty(userId))
             {
                 userId = User.Identity.GetUserId();
             }
@@ -309,6 +311,8 @@ namespace Inc2SuchTrans.Controllers
 
             if (ModelState.IsValid)
             {
+                var CustPoints = CustT.LoyaltyPoints;
+                double Discount = 0;
                 try
                 {
                     decimal weight;
@@ -329,10 +333,35 @@ namespace Inc2SuchTrans.Controllers
                     del.DropOffAdd = DropOffAdd;
                     del.CargoSize = size;
                     del.CargoWeight = weight;
-                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight);
                     del.DeliveryRef = (dateref + del.CustomerID + del.PickUpArea.Substring(1, 1) + dateref + del.DropOffArea.Substring(3, 1) + "st").Replace(" ", "");
                     del.Paid = false;
                     del.DeliveryStatus = "Waiting";
+                    CustT.LoyaltyPoints += 1;
+                    CustT.LastBooking = DateTime.Now.Date;
+                    CustT.ExpDate = DateTime.Now.AddMinutes(6);
+                    if (CustT.LastBooking < CustT.ExpDate)
+                    {
+
+                        if (CustPoints >= 3 && CustPoints <= 5)
+                        {
+                            Discount = 0.05;
+                        }
+                        else if (CustPoints >= 6 && CustPoints <= 8)
+                        {
+                            Discount = 0.10;
+                        }
+                        else if (CustPoints >= 9)
+                        {
+                            Discount = 0.15;
+                        }
+                    }
+                    else
+                    {
+                        CustT.LoyaltyPoints = 0;
+                    }
+
+                    del.DiscountCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount);
+                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - del.DiscountCost;
 
                     logic.addDelivery(del);
 
@@ -401,6 +430,8 @@ namespace Inc2SuchTrans.Controllers
         [HttpPost]
         public ActionResult CreateFromEmail(string userId, string DeliveryDate, string PickUpArea, string DropOffArea, string DropOffAdd, string CargoSize, string CargoWeight)
         {
+            var CurrentCustomer = HttpContext.User.Identity.Name;
+            var CustT = db.Customer.ToList().Find(x => x.Email == CurrentCustomer);
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
@@ -532,6 +563,8 @@ namespace Inc2SuchTrans.Controllers
 
             if (ModelState.IsValid)
             {
+                    var CustPoints = CustT.LoyaltyPoints;
+                    double Discount = 0;
                 try
                 {
                     decimal weight;
@@ -552,10 +585,35 @@ namespace Inc2SuchTrans.Controllers
                     del.DropOffAdd = DropOffAdd;
                     del.CargoSize = size;
                     del.CargoWeight = weight;
-                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight);
                     del.Paid = false;
                     del.DeliveryRef = (dateref + del.CustomerID + del.PickUpArea.Substring(1, 1) + dateref + del.DropOffArea.Substring(3, 1) + "st").Replace(" ", "");
                     del.DeliveryStatus = "Waiting";
+                    CustT.LoyaltyPoints += 1;
+                    CustT.LastBooking = DateTime.Now.Date;
+                    CustT.ExpDate = DateTime.Now.AddMinutes(6);
+                    if (CustT.LastBooking < CustT.ExpDate)
+                    {
+
+                        if (CustPoints >= 3 && CustPoints <= 5)
+                        {
+                            Discount = 0.05;
+                        }
+                        else if (CustPoints >= 6 && CustPoints <= 8)
+                        {
+                            Discount = 0.10;
+                        }
+                        else if (CustPoints >= 9)
+                        {
+                            Discount = 0.15;
+                        }
+                    }
+                    else
+                    {
+                        CustT.LoyaltyPoints = 0;
+                    }
+
+                    del.DiscountCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount);
+                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - del.DiscountCost;
 
                     logic.addDelivery(del);
                     Deliveryjob dj = new Deliveryjob();
@@ -652,7 +710,7 @@ namespace Inc2SuchTrans.Controllers
         public ActionResult CreateFromSite(string userId, string DeliveryDate, string PickUpArea, string DropOffArea, string DropOffAdd, string CargoSize, string CargoWeight)
         {
             var CurrentCustomer = HttpContext.User.Identity.Name;
-            var CustT = db.Customer.ToList().Find(x => x.CustomerName == CurrentCustomer);
+            var CustT = db.Customer.ToList().Find(x => x.Email == CurrentCustomer);
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
@@ -805,6 +863,9 @@ namespace Inc2SuchTrans.Controllers
                     del.DropOffAdd = DropOffAdd;
                     del.CargoSize = size;
                     del.CargoWeight = weight;
+                    CustT.LoyaltyPoints += 1;
+                    CustT.LastBooking = DateTime.Now.Date;
+                    CustT.ExpDate = DateTime.Now.AddMinutes(6);
                     if (CustT.LastBooking < CustT.ExpDate)
                     {
 
@@ -826,8 +887,10 @@ namespace Inc2SuchTrans.Controllers
                         CustT.LoyaltyPoints = 0;
                     }
 
+                    
+
                     del.DiscountCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount);
-                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - (logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) * Convert.ToDecimal(Discount));
+                    del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - del.DiscountCost;
                     del.DeliveryRef = (dateref + del.CustomerID + del.PickUpArea.Substring(1, 1) + dateref + del.DropOffArea.Substring(3, 1) + "st").Replace(" ", "");
                     del.Paid = false;
                     del.DeliveryStatus = "Waiting";
@@ -841,9 +904,8 @@ namespace Inc2SuchTrans.Controllers
                     dj.DriverID = null;
                     dj.PortDelay = false;
                     djlogic.addDeliveryJob(dj);
-                    CustT.LoyaltyPoints += 1;
-                    CustT.LastBooking = DateTime.Now.Date;
-                    CustT.ExpDate = DateTime.Now.AddMinutes(6);
+                    
+                    db.SaveChanges();
                     return RedirectToAction("YourDeliveries", new { id = del.CustomerID });
                 }
                 catch (Exception e)

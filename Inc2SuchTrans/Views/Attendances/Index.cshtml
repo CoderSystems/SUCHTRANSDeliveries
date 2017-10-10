@@ -2,85 +2,87 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2 style="font-family:Britannic">Attendance List</h2>
-<p style="font-size:large">
-    @Html.ActionLink("New Attendance", "Create")
-</p>
-<hr />
-<button type="button" class="btn btn-primary" style="padding-right:14px" onclick="location.href='@Url.Action("CreatePfd", "Attendances")';">
-    <i class="glyphicon glyphicon-folder-open"></i>  Generate Report
-</button>
-<br />
-<br />
+<h2 class="EveryHeader">Attendance List</h2>
+<div class="FilterDivAdmin">
+    <p style="font-size:large">
+        @Html.ActionLink("New Attendance", "Create", null, htmlAttributes: new { @class = "OrangeButton" })
+    </p>
+    <hr />
+    <button type="button" style="padding-right:14px" onclick="location.href='@Url.Action("CreatePfd", "Attendances")';">
+        <i class="glyphicon glyphicon-folder-open"></i>  Generate Report
+    </button>
+    <br />
+    <br />
 
-<table class="table table-striped table-hover table-responsive table-condensed table-bordered " id="datatable">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceID)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Driver.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Driver.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Driver.DriverID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CheckInTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CheckOutTime)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-            {
+    <table class="DeliveryTable" id="datatable">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AttendanceID)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Attendance_No)
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Driver.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Driver.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Driver.DriverID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AttendanceDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CheckInTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CheckOutTime)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.AttendanceID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.AttendanceID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.AttendanceID })*@
-
-                <button style="width:27%" type="button" class="btn btn-warning col-sm-3" onclick="location.href='@Url.Action("Edit", "Attendances", new { id = item.AttendanceID })';">Edit</button>
-                <button style="width:27%" type="button" class="btn btn-info col-sm-3 col-sm-offset-1" onclick="location.href='@Url.Action("Details","Attendances",new { id = item.AttendanceID })';">Details</button>
-                <button style="width:27%" type="button" class="btn btn-danger col-sm-3 col-sm-offset-1" onclick="location.href='@Url.Action("Delete","Attendances",new { id = item.AttendanceID })';">Delete</button>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Check_In_Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Check_Out_Time)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attendance_No)
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Check_In_Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Check_Out_Time)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.AttendanceID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.AttendanceID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AttendanceID })*@
+
+                    <a onclick="location.href='@Url.Action("Edit", "Attendances", new { id = item.Attendance_No })';">Edit</a>|
+                    <a onclick="location.href='@Url.Action("Details","Attendances",new { id = item.Attendance_No })';">Details</a>|
+                    <a onclick="location.href='@Url.Action("Delete","Attendances",new { id = item.Attendance_No })';">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script src="~/Scripts/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/dataTables.tableTools.js"></script>

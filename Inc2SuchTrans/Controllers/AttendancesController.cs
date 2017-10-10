@@ -22,7 +22,8 @@ namespace WebApplication1.Controllers
         // GET: Attendances
         public ActionResult Index()
         {
-            var attendances = db.Attendance.Include(a => a.DriverNumber);
+            //var attendances = db.Attendance.Include(a => a.DriverNumber);
+            var attendances = db.Attendance;
             return View(attendances.ToList());
         }
 
@@ -56,8 +57,25 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AttendanceID,AttendanceDate,CheckInTime,CheckOutTime,DriverID")] Attendance attendance)
+        public ActionResult Create(int DriverID, DateTime Date, DateTime Check_In_Time, DateTime Check_Out_Time)
+        //public ActionResult Create([Bind(Include = "AttendanceID,AttendanceDate,CheckInTime,CheckOutTime,DriverID")] Attendance attendance)
         {
+            TruckDriver currdriver = db.TruckDriver.Find(DriverID);
+            var emps = db.Employee;
+            Attendance attendance = new Inc2SuchTrans.Models.Attendance();
+            attendance.Check_In_Time = Check_In_Time;
+            attendance.Check_Out_Time = Check_Out_Time;
+            attendance.Date = Date;
+            attendance.DriverNumber = DriverID;
+            foreach (Employee emp in emps)
+            {
+                if (emp.EmployeeID == currdriver.EmpID)
+                {
+                    attendance.Name = emp.EmployeeName;
+                    attendance.Surname = emp.EmployeeSurname;
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -88,7 +106,7 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DriverID = new SelectList(db.TruckDriver, "DriverID", "LastName", attendance.DriverNumber);
+            ViewBag.DriverID = new SelectList(db.TruckDriver, "DriverID", "DriverID");
             return View(attendance);
         }
 
@@ -97,8 +115,12 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AttendanceID,AttendanceDate,CheckInTime,CheckOutTime,DriverID")] Attendance attendance)
+        public ActionResult Edit(int DriverID, DateTime Date, DateTime Check_In_Time, DateTime Check_Out_Time)
         {
+            Attendance attendance = db.Attendance.SingleOrDefault(i => i.DriverNumber == DriverID);
+            attendance.Check_In_Time = Check_In_Time;
+            attendance.Check_Out_Time = Check_Out_Time;
+            attendance.Date = Date;
             if (ModelState.IsValid)
             {
                 db.Entry(attendance).State = EntityState.Modified;
@@ -211,9 +233,9 @@ namespace WebApplication1.Controllers
 
                 AddCellToBody(tableLayout, dr.Attendance_No.ToString());
                 AddCellToBody(tableLayout, dr.Date.ToString());
-                //AddCellToBody(tableLayout, dr.TruckDriver.FirstName);
-                //AddCellToBody(tableLayout, dr.TruckDriver.LastName);
-                AddCellToBody(tableLayout, dr.TruckDriver.DriverID.ToString());
+                AddCellToBody(tableLayout, dr.Name);
+                AddCellToBody(tableLayout, dr.Surname);
+                AddCellToBody(tableLayout, dr.DriverNumber.ToString());
                 AddCellToBody(tableLayout, dr.Check_In_Time.ToString());
                 AddCellToBody(tableLayout, dr.Check_Out_Time.ToString());
 
