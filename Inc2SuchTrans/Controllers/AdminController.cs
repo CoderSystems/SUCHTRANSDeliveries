@@ -35,8 +35,20 @@ namespace Inc2SuchTrans.Controllers
         {
             context = new ApplicationDbContext();
         }
-
-
+        [AuthLog(Roles = "Admin, Driver")]
+        public ActionResult IncompleteDeliveries()
+        {
+            var delList = db.IncompleteDeliveries.ToList();
+            var realDelList = new List<IncompleteDeliveries>();
+            foreach(IncompleteDeliveries incdel in delList)
+            {
+                if(incdel.ReferenceKey != null&&incdel.ReferenceKey != ""&&incdel.Reason != "")
+                {
+                    realDelList.Add(incdel);
+                }
+            }
+            return View(realDelList);
+        }
 
         // GET: Admin
         [AuthLog(Roles = "Admin, Driver")]

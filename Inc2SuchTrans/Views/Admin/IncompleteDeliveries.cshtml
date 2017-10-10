@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Inc2SuchTrans.Models.IncompleteDeliveries>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="EveryHeader">Incomplete Deliveries</h2>
+<div class="FilterDivAdmin">
+    <hr />
+    <table class="DeliveryTable">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReferenceKey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReferenceKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

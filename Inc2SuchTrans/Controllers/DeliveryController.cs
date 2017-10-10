@@ -309,6 +309,11 @@ namespace Inc2SuchTrans.Controllers
 
             DateTime DDate = DateTime.Parse(DeliveryDate);
 
+            if(CustT.LoyaltyPoints == null)
+            {
+                CustT.LoyaltyPoints = 0;
+            }
+
             if (ModelState.IsValid)
             {
                 var CustPoints = CustT.LoyaltyPoints;
@@ -325,7 +330,7 @@ namespace Inc2SuchTrans.Controllers
                     string uid = User.Identity.GetUserId();
 
                     Delivery del = new Delivery();
-                    del.CustomerID = custLogic.getCurrentUserId(User.Identity.GetUserId()); ;
+                    del.CustomerID = custLogic.getCurrentUserId(User.Identity.GetUserId()); 
                     del.CurrentDate = System.DateTime.Now;
                     del.DeliveryDate = Convert.ToDateTime(DeliveryDate);
                     del.PickUpArea = PickUpArea;
@@ -372,6 +377,7 @@ namespace Inc2SuchTrans.Controllers
                     dj.DriverID = null;
                     dj.PortDelay = false;
                     djlogic.addDeliveryJob(dj);
+                    
 
                     return RedirectToAction("YourDeliveries", new { id = del.CustomerID });
                 }
@@ -432,6 +438,12 @@ namespace Inc2SuchTrans.Controllers
         {
             var CurrentCustomer = HttpContext.User.Identity.Name;
             var CustT = db.Customer.ToList().Find(x => x.Email == CurrentCustomer);
+
+            if (CustT.LoyaltyPoints == null)
+            {
+                CustT.LoyaltyPoints = 0;
+            }
+
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
@@ -616,6 +628,7 @@ namespace Inc2SuchTrans.Controllers
                     del.TotalCost = logic.determineTotalCost(PickUpArea, DropOffArea, size, weight) - del.DiscountCost;
 
                     logic.addDelivery(del);
+                    db.SaveChanges();
                     Deliveryjob dj = new Deliveryjob();
                     dj.DelID = del.DelID;
                     dj.JobStatus = "Waiting";
@@ -711,6 +724,12 @@ namespace Inc2SuchTrans.Controllers
         {
             var CurrentCustomer = HttpContext.User.Identity.Name;
             var CustT = db.Customer.ToList().Find(x => x.Email == CurrentCustomer);
+
+            if (CustT.LoyaltyPoints == null)
+            {
+                CustT.LoyaltyPoints = 0;
+            }
+
             if (String.IsNullOrEmpty(DeliveryDate))
             {
                 Danger("Please Enter A Delivery Date");
@@ -896,6 +915,7 @@ namespace Inc2SuchTrans.Controllers
                     del.DeliveryStatus = "Waiting";
 
                     logic.addDelivery(del);
+                    db.SaveChanges();
 
                     Deliveryjob dj = new Deliveryjob();
                     dj.DelID = del.DelID;

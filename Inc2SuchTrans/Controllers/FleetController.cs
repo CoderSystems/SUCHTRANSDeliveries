@@ -69,7 +69,7 @@ namespace Inc2SuchTrans.Controllers
                     f.Availability = Convert.ToBoolean(Availability);
                     f.PriorityStatus = Convert.ToBoolean(PriorityStatus);
                     logic.addTruck(f);
-                    return View("Index");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
