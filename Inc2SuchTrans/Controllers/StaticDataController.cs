@@ -71,7 +71,14 @@ namespace Inc2SuchTrans.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(contact).State = EntityState.Modified;
+                var ctact = db.Contact.Find(contact.ContactID);
+                ctact.CompanyAddress = contact.CompanyAddress;
+                ctact.Tel = contact.Tel;
+                ctact.Fax = contact.Fax;
+                ctact.Cell = contact.Cell;
+                ctact.Email = contact.Email;
+                db.Entry(ctact).State = EntityState.Modified;
+                //db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Contact", "Home", null);
             }

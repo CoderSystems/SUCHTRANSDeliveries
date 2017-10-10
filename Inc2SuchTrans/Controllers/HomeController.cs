@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Inc2SuchTrans.Models;
 
 namespace Inc2SuchTrans.Controllers
 {
@@ -48,9 +49,11 @@ namespace Inc2SuchTrans.Controllers
 
         public ActionResult Contact()
         {
+            STLogisticsEntities db = new STLogisticsEntities();
+            var ctact = db.Contact.First();
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return View(ctact);
         }
     }
 }

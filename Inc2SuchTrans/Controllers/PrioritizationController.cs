@@ -78,6 +78,9 @@ namespace Inc2SuchTrans.Controllers
                 try
                 {
                     db.Entry(dj).State = EntityState.Modified;
+                    Delivery del = db.Delivery.Where(x => x.DelID == dj.DelID).SingleOrDefault();
+                    del.DeliveryStatus = dj.JobStatus;
+                    db.Entry(del).State = EntityState.Modified;
                     db.SaveChanges();
 
                     JobQueue jq = jqlogic.searchItem(dj.JobID);

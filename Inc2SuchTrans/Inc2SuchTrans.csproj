@@ -394,16 +394,13 @@
     <Content Include="Content\Images\Monotone Truck%28edit%29.jpg" />
     <Content Include="Content\Images\Mountain Roads Truck.jpg" />
     <Content Include="Content\Images\Paperwork.jpg" />
-    <Content Include="Content\Images\Phone3.png" />
     <Content Include="Content\Images\rating.png" />
     <Content Include="Content\Images\Shadow Truck.jpg" />
-    <Content Include="Content\Images\skyscraper.png" />
     <Content Include="Content\Images\square_bg_%402X.png" />
     <Content Include="Content\Images\Transport-Trucking-Driving-Freeway-Transportation-1495618.jpg" />
     <Content Include="Content\Images\Twitter.svg" />
     <Content Include="Content\Images\whitestar.png" />
     <Content Include="Content\Images\whitestar1.png" />
-    <Content Include="Content\Images\Wifi.png" />
     <Content Include="Content\Images\yellowstar.png" />
     <Content Include="Content\Images\yellowstar1.png" />
     <Content Include="Content\outPopUp.css" />
@@ -578,6 +575,7 @@
     <Content Include="Models\AttendanceModel.edmx.diagram">
       <DependentUpon>AttendanceModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\STPublication.pubxml" />
     <None Include="Properties\PublishProfiles\SuchTransInc2.pubxml" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />

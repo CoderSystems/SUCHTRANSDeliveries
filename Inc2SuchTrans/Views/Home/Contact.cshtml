@@ -1,5 +1,6 @@
 ﻿@using Inc2SuchTrans.Models;
 @using Jmelosegui.Mvc.GoogleMap
+@model Inc2SuchTrans.Models.Contact
 @{
     ViewBag.Title = "Contact";
     STLogisticsEntities db = new STLogisticsEntities();
@@ -48,13 +49,13 @@
                         <ul style="width:auto">
                             <li>SUCHTRANS cc</li>
                             <li>LOGISTIC SERVICES</li>
-                            <li>774 Silverglen, Chatsworth</li>
+                            <li>@Html.DisplayFor(Model => Model.CompanyAddress) </li>
                             <li>P.O. Box 16108</li>
                             <li>Bluff 4036</li>
-                            <li>Tel: 031 301 8230</li>
-                            <li>Fax: 031 301 3658</li>
-                            <li>Cell: 071 625 7236</li>
-                            <li>palan@supaquicklogistics.co.za</li>
+                            <li>@Html.DisplayFor(Model => Model.Tel) </li>
+                            <li>@Html.DisplayFor(Model => Model.Fax) </li>
+                            <li>@Html.DisplayFor(Model => Model.Cell) </li>
+                            <li>@Html.DisplayFor(Model => Model.Email) </li>
                         </ul>
                     </address>
                     <div>

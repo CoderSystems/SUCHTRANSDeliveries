@@ -576,12 +576,14 @@ namespace Inc2SuchTrans.Controllers
         [AuthLog(Roles = "Admin")]
         public ActionResult ScheduleJobs()
         {
+            int priorityScore = 1;
             try
             {
                 foreach (Deliveryjob dj in djLogic.getAllDeliveryJobs())
                 {
                     if (dj.JobStatus.ToLower() == "priority" && dj.DriverID == null && dj.TruckID == null)
                     {
+                        priorityScore = 3;
                         foreach (TruckDriver td in tdLogic.returnAllDrivers())
                         {
                             if (td.Avail == true)
@@ -615,6 +617,7 @@ namespace Inc2SuchTrans.Controllers
                     else
                         if (dj.JobStatus.ToLower() == "priority" && dj.DriverID != null && dj.TruckID == null)
                     {
+                        priorityScore = 3;
                         foreach (Fleet f in flogic.returnAllTrucks())
                         {
                             if (f.Availability == true)
@@ -633,6 +636,7 @@ namespace Inc2SuchTrans.Controllers
                     else
                         if (dj.JobStatus.ToLower() == "priority" && dj.DriverID == null && dj.TruckID != null)
                     {
+                        priorityScore = 3;
                         foreach (TruckDriver td in tdLogic.returnAllDrivers())
                         {
                             if (td.Avail == true)
@@ -652,6 +656,7 @@ namespace Inc2SuchTrans.Controllers
                     else
                     if (dj.JobStatus.ToLower() == "waiting" && dj.DriverID == null && dj.TruckID == null)
                     {
+                        priorityScore = 1;
                         foreach (TruckDriver td in tdLogic.returnAllDrivers())
                         {
                             if (td.Avail == true)
@@ -686,6 +691,7 @@ namespace Inc2SuchTrans.Controllers
                     else
                         if (dj.JobStatus.ToLower() == "waiting" && dj.DriverID != null && dj.TruckID == null)
                     {
+                        priorityScore = 1;
                         foreach (Fleet f in flogic.returnAllTrucks())
                         {
                             if (f.Availability == true)
@@ -704,6 +710,7 @@ namespace Inc2SuchTrans.Controllers
                     else
                         if (dj.JobStatus.ToLower() == "waiting" && dj.DriverID == null && dj.TruckID != null)
                     {
+                        priorityScore = 1;
                         foreach (TruckDriver td in tdLogic.returnAllDrivers())
                         {
                             if (td.Avail == true)
@@ -720,13 +727,13 @@ namespace Inc2SuchTrans.Controllers
                         }
                     }
 
-                    else if (dj.JobStatus.ToLower() == "delivered")
-                    {
-                        dj.DriverID = null;
-                        dj.TruckID = null;
-                        djLogic.updateDetails(dj);
-                        break;
-                    }
+                    //else if (dj.JobStatus.ToLower() == "delivered")
+                    //{
+                    //    dj.DriverID = null;
+                    //    dj.TruckID = null;
+                    //    djLogic.updateDetails(dj);
+                    //    break;
+                    //}
 
                     djLogic.updateDetails(dj);
                     JobQueue jq = jqLogic.searchItem(dj.JobID);
@@ -734,7 +741,7 @@ namespace Inc2SuchTrans.Controllers
                     {
                         JobQueue newjq = new JobQueue();
                         newjq.JobID = dj.JobID;
-                        newjq.PriorityScore = 1;
+                        newjq.PriorityScore = priorityScore;
                         newjq.QueueStatus = dj.JobStatus;
 
                         jqLogic.addJobToQueue(newjq);
